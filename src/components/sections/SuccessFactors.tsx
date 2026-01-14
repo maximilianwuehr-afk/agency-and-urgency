@@ -4,30 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
-// ASCII art icons for each factor
+// Simple bracketed symbols - clean and instantly recognizable
 const asciiIcons = {
-  curiosity: `
- .--.
-( o )
- '--'
-  /   `.trim(),
-  agency: `
-  +
- /|\\
---+--
- \\|/
-  +`.trim(),
-  stop: `
- ___
-|   |
-| | |
-|___|`.trim(),
-  imperfect: `
-  *
- /|\\
-* | *
- \\|/
-  *`.trim(),
+  curiosity: `[?]`,
+  agency: `[►]`,
+  stop: `[■]`,
+  imperfect: `[~]`,
 };
 
 const factors = [
@@ -130,7 +112,7 @@ export function SuccessFactors() {
                          transition-colors cursor-pointer select-none"
             >
               <div className="flex items-start gap-4">
-                <pre className="text-[var(--accent-finn)] text-[10px] leading-tight font-mono shrink-0 select-none">{factor.icon}</pre>
+                <span className="text-[var(--accent-finn)] text-2xl font-mono shrink-0 select-none">{factor.icon}</span>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">
                     {factor.title}

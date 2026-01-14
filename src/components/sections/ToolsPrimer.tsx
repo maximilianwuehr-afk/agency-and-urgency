@@ -4,32 +4,13 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
-// ASCII art icons for concepts
+// Simple, bold ASCII icons
 const asciiIcons = {
-  brain: `
- ,---.
-(o o )
- \\_-_/`.trim(),
-  scope: `
-  __
- /  \\
-|    |--
- \\__/`.trim(),
-  harness: `
- _____
-|     |
-|  H  |
-|_____|`.trim(),
-  tools: `
-   __
-  /  \\
- |    |
---+--`.trim(),
-  bulb: `
-  _
- / \\
-( ! )
- \\_/`.trim(),
+  brain: `[◉]`,
+  scope: `[▣]`,
+  harness: `[⊞]`,
+  tools: `[⚙]`,
+  bulb: `[!]`,
 };
 
 const concepts = [
@@ -170,7 +151,7 @@ export function ToolsPrimer() {
                     className="border-b border-[var(--border)]/50 hover:bg-[var(--bg-panel)] cursor-pointer relative"
                   >
                     <td className="py-4 px-4 font-semibold text-[var(--accent-finn)]">
-                      <pre className="inline-block mr-3 text-[8px] leading-tight align-middle">{item.image.ascii}</pre>
+                      <span className="inline-block mr-3 text-base font-mono">{item.image.ascii}</span>
                       {item.concept}
                     </td>
                     <td className="py-4 px-4 text-[var(--text-primary)]">{item.meaning}</td>
@@ -194,7 +175,7 @@ export function ToolsPrimer() {
                            shadow-2xl overflow-hidden p-4 flex flex-col items-center"
                 style={{ width: '160px' }}
               >
-                <pre className="text-[var(--accent-finn)] text-xs leading-tight mb-2">{concepts[activeConceptIndex].image.ascii}</pre>
+                <span className="text-[var(--accent-finn)] text-3xl font-mono mb-2">{concepts[activeConceptIndex].image.ascii}</span>
                 <div className="text-sm font-mono text-[var(--text-muted)] text-center">
                   {concepts[activeConceptIndex].image.caption}
                 </div>
@@ -279,7 +260,7 @@ export function ToolsPrimer() {
           className="p-6 bg-[var(--accent-finn)]/10 border border-[var(--accent-finn)]/30 rounded-xl"
         >
           <div className="flex items-start gap-3">
-            <pre className="text-[var(--accent-finn)] text-[10px] leading-tight shrink-0">{asciiIcons.bulb}</pre>
+            <span className="text-[var(--accent-finn)] text-lg font-mono shrink-0">{asciiIcons.bulb}</span>
             <div>
               <div className="font-semibold text-[var(--text-primary)] mb-1">Recommendation</div>
               <div className="text-[var(--text-muted)]">
