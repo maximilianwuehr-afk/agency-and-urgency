@@ -7,7 +7,7 @@ const steps = [
   {
     number: 1,
     title: 'Think First',
-    description: 'Spend 2 minutes clarifying what you want. Use "plan mode" — it forces structured thinking.',
+    description: 'Spend 2 minutes clarifying what you want. Use "plan mode" — it forces structured thinking. Engineers: try spec-driven development — write what to build, let AI handle how.',
     bad: '"Build an auth system"',
     good: '"Interview me about building an auth system. What are key steps?"',
   },

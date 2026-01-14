@@ -57,8 +57,39 @@ const appendices = [
     ],
   },
   {
+    id: 'spec-driven',
+    title: 'C: For Engineers — Spec-Driven Development',
+    content: [
+      {
+        subtitle: 'The Core Idea',
+        text: 'You define what to build and why. AI handles how. Instead of writing code, you write specs, review output, and give feedback.',
+      },
+      {
+        subtitle: 'The Structure',
+        text: '',
+        list: [
+          'CLAUDE.md files — repo-wide and feature-specific instructions',
+          'Design specs — what you\'re building, constraints, decisions',
+          'Decision records — why you chose X over Y',
+          'Cookbooks — runnable examples that prove the implementation works',
+        ],
+      },
+      {
+        subtitle: 'The Workflow',
+        text: 'Small, reviewable PRs (under 10 minutes review time). If the cookbook doesn\'t run, the implementation isn\'t done. You orchestrate; AI executes.',
+      },
+      {
+        subtitle: 'The Result',
+        text: 'Complex features that used to take months now take days. The key: clear specs, not clever prompts.',
+      },
+    ],
+    sources: [
+      { name: 'Spec-Driven Development with Claude Code — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
+    ],
+  },
+  {
     id: 'sources',
-    title: 'C: All Sources',
+    title: 'D: All Sources',
     content: [],
     sources: [
       { name: 'Claude Code Guide — Eyad Khrais', url: 'https://x.com/eyad_khrais/status/2010076957938188661' },
@@ -66,6 +97,7 @@ const appendices = [
       { name: 'My Current AI Dev Workflow — Peter Steinberger', url: 'https://steipete.me/posts/2025/optimal-ai-development-workflow' },
       { name: 'Just Talk To It — Peter Steinberger', url: 'https://steipete.me/posts/just-talk-to-it' },
       { name: 'Shipping at Inference-Speed — Peter Steinberger', url: 'https://steipete.me/posts/2025/shipping-at-inference-speed' },
+      { name: 'Spec-Driven Development with Claude Code — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
     ],
   },
 ];
