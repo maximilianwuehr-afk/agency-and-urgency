@@ -4,14 +4,42 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
+// ASCII art icons for concepts
+const asciiIcons = {
+  brain: `
+ ,---.
+(o o )
+ \\_-_/`.trim(),
+  scope: `
+  __
+ /  \\
+|    |--
+ \\__/`.trim(),
+  harness: `
+ _____
+|     |
+|  H  |
+|_____|`.trim(),
+  tools: `
+   __
+  /  \\
+ |    |
+--+--`.trim(),
+  bulb: `
+  _
+ / \\
+( ! )
+ \\_/`.trim(),
+};
+
 const concepts = [
   {
     concept: 'LLM',
     meaning: 'Large Language Model — the AI "brain" that reads and generates text',
     analogy: 'A very fast reader and writer',
     image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/3413/3413536.png', // Brain icon
-      emoji: '🧠',
+      url: 'https://cdn-icons-png.flaticon.com/512/3413/3413536.png',
+      ascii: asciiIcons.brain,
       caption: 'The ammunition',
     },
   },
@@ -20,8 +48,8 @@ const concepts = [
     meaning: 'How much the AI can "see" at once (~250K tokens or ~1M characters)',
     analogy: 'The size of your screen — bigger = more documents open',
     image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/565/565547.png', // Scope/sight
-      emoji: '🔭',
+      url: 'https://cdn-icons-png.flaticon.com/512/565/565547.png',
+      ascii: asciiIcons.scope,
       caption: 'The scope',
     },
   },
@@ -30,8 +58,8 @@ const concepts = [
     meaning: 'Software that wraps the LLM and lets it take actions',
     analogy: 'The car around the engine',
     image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/2830/2830305.png', // Belt
-      emoji: '🎒',
+      url: 'https://cdn-icons-png.flaticon.com/512/2830/2830305.png',
+      ascii: asciiIcons.harness,
       caption: 'The holster',
     },
   },
@@ -40,8 +68,8 @@ const concepts = [
     meaning: 'Actions the AI can perform (read files, search, run code, browse)',
     analogy: "The intern's toolkit",
     image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/1320/1320931.png', // Tool
-      emoji: '🔧',
+      url: 'https://cdn-icons-png.flaticon.com/512/1320/1320931.png',
+      ascii: asciiIcons.tools,
       caption: 'The weapons',
     },
   },
@@ -142,7 +170,7 @@ export function ToolsPrimer() {
                     className="border-b border-[var(--border)]/50 hover:bg-[var(--bg-panel)] cursor-pointer relative"
                   >
                     <td className="py-4 px-4 font-semibold text-[var(--accent-finn)]">
-                      <span className="mr-2">{item.image.emoji}</span>
+                      <pre className="inline-block mr-3 text-[8px] leading-tight align-middle">{item.image.ascii}</pre>
                       {item.concept}
                     </td>
                     <td className="py-4 px-4 text-[var(--text-primary)]">{item.meaning}</td>
@@ -166,7 +194,7 @@ export function ToolsPrimer() {
                            shadow-2xl overflow-hidden p-4 flex flex-col items-center"
                 style={{ width: '160px' }}
               >
-                <div className="text-6xl mb-2">{concepts[activeConceptIndex].image.emoji}</div>
+                <pre className="text-[var(--accent-finn)] text-xs leading-tight mb-2">{concepts[activeConceptIndex].image.ascii}</pre>
                 <div className="text-sm font-mono text-[var(--text-muted)] text-center">
                   {concepts[activeConceptIndex].image.caption}
                 </div>
@@ -251,7 +279,7 @@ export function ToolsPrimer() {
           className="p-6 bg-[var(--accent-finn)]/10 border border-[var(--accent-finn)]/30 rounded-xl"
         >
           <div className="flex items-start gap-3">
-            <span className="text-[var(--accent-finn)] text-xl">💡</span>
+            <pre className="text-[var(--accent-finn)] text-[10px] leading-tight shrink-0">{asciiIcons.bulb}</pre>
             <div>
               <div className="font-semibold text-[var(--text-primary)] mb-1">Recommendation</div>
               <div className="text-[var(--text-muted)]">

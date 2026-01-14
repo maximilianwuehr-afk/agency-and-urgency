@@ -4,47 +4,73 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
+// ASCII art icons for each factor
+const asciiIcons = {
+  curiosity: `
+ .--.
+( o )
+ '--'
+  /   `.trim(),
+  agency: `
+  +
+ /|\\
+--+--
+ \\|/
+  +`.trim(),
+  stop: `
+ ___
+|   |
+| | |
+|___|`.trim(),
+  imperfect: `
+  *
+ /|\\
+* | *
+ \\|/
+  *`.trim(),
+};
+
 const factors = [
   {
     title: 'Curiosity',
-    icon: '🔍',
+    icon: asciiIcons.curiosity,
     description: 'Dive into areas outside your expertise. AI will help you. A PM can prototype code. A designer can query databases.',
     highlight: 'The barrier to entry has collapsed.',
     meme: {
-      url: 'https://media.giphy.com/media/3o7buirYcmV5nSwIRW/giphy.gif', // Curious cat
+      url: 'https://media.giphy.com/media/3o7buirYcmV5nSwIRW/giphy.gif',
       alt: 'Curious cat meme',
       caption: 'What if I just... tried it?',
     },
   },
   {
     title: 'Agency',
-    icon: '🎯',
+    icon: asciiIcons.agency,
     description: "You are in the driver's seat. AI proposes; you decide. Don't accept outputs blindly.",
     highlight: 'You can literally just do things.',
     meme: {
-      url: 'https://media.giphy.com/media/3o7TKF1fSIs1R19B8k/giphy.gif', // Shia LaBeouf "Just Do It"
+      url: 'https://media.giphy.com/media/3o7TKF1fSIs1R19B8k/giphy.gif',
       alt: 'Just Do It meme',
       caption: "Just do it!",
     },
   },
   {
     title: 'Knowing When to Stop',
-    icon: '⏸',
+    icon: asciiIcons.stop,
     description: 'AI is a slot machine for productivity. The hardest skill: recognizing when to start fresh with a clearer prompt.',
     highlight: 'Sometimes delete everything.',
     meme: {
-      url: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif', // Walking away from explosion
+      url: 'https://media.giphy.com/media/l0HlvtIPzPdt2usKs/giphy.gif',
       alt: 'Walking away meme',
       caption: 'Delete. Start fresh.',
     },
   },
   {
     title: 'Accepting Imperfection',
-    icon: '✨',
+    icon: asciiIcons.imperfect,
     description: "You won't get 100%. That's fine. The goal isn't perfection; it's progress.",
     highlight: 'Be specific. Start small. Improve over time.',
     meme: {
-      url: 'https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif', // This is fine
+      url: 'https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif',
       alt: 'This is fine meme',
       caption: "80% is fine. Ship it.",
     },
@@ -104,7 +130,7 @@ export function SuccessFactors() {
                          transition-colors cursor-pointer select-none"
             >
               <div className="flex items-start gap-4">
-                <div className="text-4xl">{factor.icon}</div>
+                <pre className="text-[var(--accent-finn)] text-[10px] leading-tight font-mono shrink-0 select-none">{factor.icon}</pre>
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">
                     {factor.title}
