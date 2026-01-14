@@ -19,7 +19,7 @@ export function Section({ id, children, className = '', fullHeight = false }: Se
     const element = ref.current;
     if (!element) return;
 
-    // Use IntersectionObserver with rootMargin to detect when section crosses center
+    // Use IntersectionObserver with rootMargin to detect when section crosses top
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -29,8 +29,8 @@ export function Section({ id, children, className = '', fullHeight = false }: Se
         });
       },
       {
-        // Trigger when element is in the middle 40% of viewport
-        rootMargin: '-30% 0px -30% 0px',
+        // Trigger when element enters the top 20% of viewport
+        rootMargin: '-10% 0px -70% 0px',
         threshold: 0,
       }
     );

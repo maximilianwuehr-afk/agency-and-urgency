@@ -419,7 +419,7 @@ export function AICli() {
         )}
 
         {/* Free-text question + response */}
-        {currentContent.type === 'free-text' && (cliState === 'question' || cliState === 'streaming' || cliState === 'complete') && (
+        {currentContent.type === 'free-text' && (cliState === 'question' || cliState === 'thinking' || cliState === 'streaming' || cliState === 'complete') && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -451,7 +451,7 @@ export function AICli() {
         )}
 
         {/* Multi-select question + response */}
-        {currentContent.type === 'multi-select' && (cliState === 'question' || cliState === 'streaming' || cliState === 'complete') && (
+        {currentContent.type === 'multi-select' && (cliState === 'question' || cliState === 'thinking' || cliState === 'streaming' || cliState === 'complete') && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
