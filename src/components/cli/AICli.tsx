@@ -156,20 +156,11 @@ function TerminalSection({
       {config.type === 'free-text' && (
         <div className="space-y-3">
           <div className="text-[var(--text-primary)]">{config.question}</div>
-          {isCompleted && savedResponse ? (
-            <div className="space-y-2">
-              <div className="text-[var(--accent-finn)] bg-[var(--bg-card)] px-3 py-2 rounded text-sm">
-                {Array.isArray(savedResponse.userInput) ? savedResponse.userInput.join(', ') : savedResponse.userInput}
-              </div>
-              <div className="text-[var(--text-muted)] text-sm">{savedResponse.aiResponse}</div>
-            </div>
-          ) : (
-            <FreeTextInput
-              placeholder="Type your answer..."
-              onSubmit={handleFreeTextSubmit}
-              disabled={isLoading}
-            />
-          )}
+          <FreeTextInput
+            placeholder="Type your answer..."
+            onSubmit={handleFreeTextSubmit}
+            disabled={isLoading}
+          />
         </div>
       )}
 
