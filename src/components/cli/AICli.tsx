@@ -53,12 +53,12 @@ const sectionConfig: Record<string, SectionConfig> = {
     type: 'options',
   },
   'what-this-means': {
-    command: 'cat implications.md',
-    type: 'reading',
-  },
-  'practical-guide': {
     command: 'finn-ai generate --prompt',
     type: 'prompt',
+  },
+  'practical-guide': {
+    command: 'cat instructions.md',
+    type: 'reading',
   },
   appendices: {
     command: 'ls ./appendices/',
@@ -74,6 +74,7 @@ function TerminalSection({
   onSubmitFreeText,
   onSubmitMultiSelect,
   onSelectOption,
+  onPromptGenerated,
 }: {
   sectionId: string;
   config: SectionConfig;
@@ -81,6 +82,7 @@ function TerminalSection({
   onSubmitFreeText: (section: string, value: string) => void;
   onSubmitMultiSelect: (section: string, tools: string[]) => void;
   onSelectOption: (section: string, option: Option) => void;
+  onPromptGenerated?: (prompt: string) => void;
 }) {
   const { state } = useSession();
   const savedResponse = state.sectionResponses[sectionId];
@@ -90,7 +92,7 @@ function TerminalSection({
   const [options, setOptions] = useState<Option[]>([]);
   const [hasTriggered, setHasTriggered] = useState(false);
   const { sendMessage, response, isLoading } = useChat({
-    section: sectionId,
+    section: sectionId === 'what-this-means' ? 'practical-guide' : sectionId,
     onComplete: (fullResponse) => {
       if (sectionId === 'examples') {
         try {
@@ -103,6 +105,8 @@ function TerminalSection({
             { id: '3', title: 'Full project with AI', description: 'End-to-end development', difficulty: 'stretch' },
           ]);
         }
+      } else if (sectionId === 'what-this-means') {
+        onPromptGenerated?.(fullResponse);
       }
     },
   });
@@ -113,7 +117,7 @@ function TerminalSection({
       if (sectionId === 'examples') {
         setHasTriggered(true);
         sendMessage('generate options');
-      } else if (sectionId === 'practical-guide') {
+      } else if (sectionId === 'what-this-means') {
         setHasTriggered(true);
         sendMessage('generate prompt');
       }
@@ -236,16 +240,16 @@ export function AICli() {
         userInput = state.toolsTried;
       }
 
-      if (section === 'practical-guide') {
-        setGeneratedPrompt(fullResponse);
-      }
-
       if (userInput) {
         setSectionResponse(section, { userInput, aiResponse: fullResponse });
       }
       completeSection(section);
     },
   });
+
+  const handlePromptGenerated = useCallback((prompt: string) => {
+    setGeneratedPrompt(prompt);
+  }, [setGeneratedPrompt]);
 
   // Auto-scroll when new sections are added (not on backward navigation)
   useEffect(() => {
@@ -317,6 +321,7 @@ export function AICli() {
               onSubmitFreeText={handleSubmitFreeText}
               onSubmitMultiSelect={handleSubmitMultiSelect}
               onSelectOption={handleSelectOption}
+              onPromptGenerated={handlePromptGenerated}
             />
           );
         })}
