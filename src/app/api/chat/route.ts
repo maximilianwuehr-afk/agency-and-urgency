@@ -62,7 +62,7 @@ Return ONLY a JSON array, no other text.`;
     }
 
     const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-3-5-haiku-20241022',
       max_tokens: 500,
       system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
@@ -102,7 +102,12 @@ Return ONLY a JSON array, no other text.`;
       },
     });
   } catch (error) {
-    console.error('API Error:', error);
-    return Response.json({ error: 'Failed to process request' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : '';
+    console.error('API Error:', errorMessage, errorStack);
+    return Response.json({
+      error: 'Failed to process request',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 500 });
   }
 }
