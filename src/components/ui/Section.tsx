@@ -8,46 +8,45 @@ interface SectionProps {
   id: string;
   children: React.ReactNode;
   className?: string;
-  fullHeight?: boolean;
 }
 
-export function Section({ id, children, className = '', fullHeight = false }: SectionProps) {
+export function Section({ id, children, className = '' }: SectionProps) {
   const ref = useRef<HTMLElement>(null);
-  const { setCurrentSection } = useSession();
+  const { setCurrentSection, addVisitedSection } = useSession();
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Use IntersectionObserver with rootMargin to detect when section crosses top
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setCurrentSection(id);
+            addVisitedSection(id);
           }
         });
       },
       {
-        // Trigger when element enters the top 20% of viewport
-        rootMargin: '-10% 0px -70% 0px',
+        // Trigger when section is mostly visible
+        rootMargin: '-40% 0px -40% 0px',
         threshold: 0,
       }
     );
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [id, setCurrentSection]);
+  }, [id, setCurrentSection, addVisitedSection]);
 
   return (
     <motion.section
       ref={ref}
       id={id}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`${fullHeight ? 'min-h-screen' : ''} ${className}`}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.4 }}
+      className={`h-screen w-full snap-start snap-always overflow-y-auto flex flex-col ${className}`}
     >
       {children}
     </motion.section>

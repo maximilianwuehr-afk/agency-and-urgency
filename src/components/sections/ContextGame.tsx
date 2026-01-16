@@ -3,21 +3,43 @@
 import { motion } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
-const codeExample = `# AGENTS.md
-## Project Context
-- Stack: Next.js, TypeScript, Tailwind
-- Style: Minimal, functional components
-- Conventions: Prefer composition over inheritance
+const examples = [
+  {
+    role: 'Lawyer',
+    task: 'Analyze contracts, draft legal documents, summarize case law',
+    source: 'Anthropic legal team',
+  },
+  {
+    role: 'Doctor / Health Coach',
+    task: 'Interpret lab results, create health dashboards, explain test benefits',
+    source: 'Real user stories',
+  },
+  {
+    role: 'Hiring Manager',
+    task: 'Write job descriptions, create interview rubrics, design hiring plans',
+    source: 'Clay team',
+  },
+  {
+    role: 'Consultant',
+    task: 'Analyze data, generate reports, provide strategic recommendations',
+    source: 'Common enterprise use',
+  },
+];
 
-## Do's
-- Use semantic HTML
-- Keep components under 200 lines
-- Write tests for business logic
-
-## Don'ts
-- Don't add abstractions I didn't ask for
-- Don't refactor surrounding code
-- Don't use class components`;
+const resources = [
+  {
+    title: 'Everyone should be using Claude Code more',
+    author: 'Lenny Rachitsky',
+    url: 'https://www.lennysnewsletter.com/p/everyone-should-be-using-claude-code',
+    note: 'Great overview of non-coding use cases',
+  },
+  {
+    title: 'How AI Is Transforming Work at Anthropic',
+    author: 'Anthropic',
+    url: 'https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic',
+    note: 'Engineers becoming "full-stack" across disciplines',
+  },
+];
 
 export function ContextGame() {
   return (
@@ -29,7 +51,7 @@ export function ContextGame() {
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-primary)]"
         >
-          The Context Game
+          AI Can Learn Any Job
         </motion.h2>
 
         <motion.p
@@ -37,92 +59,99 @@ export function ContextGame() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-lg text-[var(--text-muted)] mb-12"
+          className="text-lg text-[var(--text-muted)] mb-12 max-w-3xl"
         >
-          AI performance depends heavily on context — what you tell it about your situation,
-          constraints, and goals.
+          Give AI the right context — documents, examples, instructions — and it adapts to your domain.
+          People are already using it for work far outside its original purpose.
         </motion.p>
 
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
-          {/* AGENTS.md */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
-              AGENTS.md / CLAUDE.md
-            </h3>
-            <p className="text-[var(--text-muted)] mb-4 text-sm">
-              A file in your project that gives AI persistent instructions: coding style,
-              project structure, do&apos;s and don&apos;ts. It reads this before every conversation.
-            </p>
-            <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-card)] border-b border-[var(--border)]">
-                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                <span className="text-xs text-[var(--text-muted)] ml-2 font-mono">AGENTS.md</span>
-              </div>
-              <pre className="p-4 text-xs font-mono text-[var(--text-muted)] overflow-x-auto">
-                {codeExample}
-              </pre>
-            </div>
-          </motion.div>
-
-          {/* Skills */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
-              Skills
-            </h3>
-            <p className="text-[var(--text-muted)] mb-4 text-sm">
-              Reusable prompts for common tasks. Like macros, but for AI.
-            </p>
-            <div className="space-y-3">
-              {[
-                { name: '/o3-prep', desc: 'Generates 1:1 prep with accountability tracking' },
-                { name: '/cli-design', desc: 'Helps with crafting command-line interfaces' },
-                { name: '/frontend-design', desc: 'Grounds the AI for design decisions' },
-              ].map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-3 bg-[var(--bg-panel)] border border-[var(--border)] rounded-lg"
-                >
-                  <code className="text-[var(--accent-glow)] font-mono text-sm">{skill.name}</code>
-                  <p className="text-[var(--text-muted)] text-sm mt-1">{skill.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Warning */}
+        {/* Examples Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="p-6 bg-[var(--accent-warn)]/10 border border-[var(--accent-warn)]/30 rounded-xl"
+          className="mb-12"
         >
-          <h4 className="text-lg font-semibold text-[var(--accent-warn)] mb-3 flex items-center gap-2">
-            <span>⚠</span> Warning: Context Bloat
-          </h4>
-          <p className="text-[var(--text-muted)] mb-4">
-            More context ≠ better results. Performance degrades when the context window fills up.
+          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">Real examples from the wild</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {examples.map((ex, index) => (
+              <motion.div
+                key={ex.role}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-5 bg-[var(--bg-panel)] border border-[var(--border)] rounded-xl"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-[var(--accent-finn)] font-mono shrink-0">[{index + 1}]</span>
+                  <div>
+                    <div className="font-semibold text-[var(--text-primary)] mb-1">{ex.role}</div>
+                    <p className="text-sm text-[var(--text-muted)] mb-2">{ex.task}</p>
+                    <p className="text-xs text-[var(--text-dim)] italic">Source: {ex.source}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Key Insight */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="p-6 bg-[var(--accent-finn)]/10 border border-[var(--accent-finn)]/30 rounded-xl mb-12"
+        >
+          <div className="text-lg font-medium text-[var(--text-primary)] mb-2">
+            The pattern is simple:
+          </div>
+          <div className="text-[var(--text-muted)]">
+            <span className="text-[var(--accent-finn)] font-semibold">Context</span> (what you give it) +{' '}
+            <span className="text-[var(--accent-finn)] font-semibold">Instructions</span> (what you want) ={' '}
+            <span className="text-[var(--accent-finn)] font-semibold">Domain expertise</span>
+          </div>
+          <p className="text-sm text-[var(--text-muted)] mt-3">
+            This is why &quot;prompt engineering&quot; matters. It&apos;s really just: be specific about what you need,
+            and give the AI enough context to do a good job.
           </p>
-          <div className="flex items-center gap-4 p-4 bg-[var(--bg-primary)] rounded-lg">
-            <div className="text-4xl font-bold text-[var(--accent-warn)]">~30%</div>
-            <div className="text-sm text-[var(--text-muted)]">
-              is where quality starts dropping. Be selective. Clear conversations when stuck.
-              <span className="text-[var(--accent-glow)]"> Start fresh.</span>
-            </div>
+        </motion.div>
+
+        {/* Resources */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">Go deeper</h3>
+          <div className="space-y-3">
+            {resources.map((resource, index) => (
+              <motion.a
+                key={resource.url}
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="block p-4 bg-[var(--bg-panel)] border border-[var(--border)] rounded-lg
+                           hover:border-[var(--accent-finn)] hover:bg-[var(--bg-card)] transition-colors group"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-finn)] transition-colors">
+                      {resource.title}
+                    </div>
+                    <div className="text-sm text-[var(--text-muted)]">{resource.author}</div>
+                    <p className="text-xs text-[var(--text-dim)] mt-1">{resource.note}</p>
+                  </div>
+                  <span className="text-[var(--text-dim)] group-hover:text-[var(--accent-finn)] transition-colors shrink-0">
+                    ↗
+                  </span>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </motion.div>
       </div>

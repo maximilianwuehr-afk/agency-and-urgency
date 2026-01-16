@@ -5,9 +5,9 @@ import { Section } from '@/components/ui/Section';
 import { StatCounter } from '@/components/ui/StatCounter';
 
 const aiCan = [
-  'Generate drafts fast',
+  'Write production-ready software',
   'Search and synthesize information',
-  'Execute repetitive tasks',
+  'Execute repetitive tasks at scale',
   'Explore possibilities you wouldn\'t have time to try',
 ];
 
@@ -117,22 +117,6 @@ export function RealityCheck() {
           </footer>
         </motion.blockquote>
 
-        {/* Caveat */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 p-4 bg-[var(--accent-warn)]/10 border border-[var(--accent-warn)]/30 rounded-lg"
-        >
-          <div className="flex items-start gap-3">
-            <span className="text-[var(--accent-warn)]">⚠</span>
-            <div className="text-sm text-[var(--text-muted)]">
-              <strong className="text-[var(--accent-warn)]">Caveat:</strong> This 20x applies to execution speed.
-              Thinking and deciding still take human time. AI accelerates the typing.
-            </div>
-          </div>
-        </motion.div>
       </div>
     </Section>
   );

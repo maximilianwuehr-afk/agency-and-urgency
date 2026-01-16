@@ -1,102 +1,84 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Section } from '@/components/ui/Section';
 
-// Simple, bold ASCII icons
 const asciiIcons = {
   brain: `[◉]`,
-  scope: `[▣]`,
-  harness: `[⊞]`,
+  context: `[▣]`,
   tools: `[⚙]`,
   bulb: `[!]`,
+  chat: `[◯]`,
+  work: `[▶]`,
+  code: `[<>]`,
 };
 
 const concepts = [
   {
     concept: 'LLM',
     meaning: 'Large Language Model — the AI "brain" that reads and generates text',
-    analogy: 'A very fast reader and writer',
-    image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/3413/3413536.png',
-      ascii: asciiIcons.brain,
-      caption: 'The ammunition',
-    },
+    simple: 'Think: a very fast reader and writer',
+    icon: asciiIcons.brain,
   },
   {
-    concept: 'Context window',
-    meaning: 'How much the AI can "see" at once (~250K tokens or ~1M characters)',
-    analogy: 'The size of your screen — bigger = more documents open',
-    image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/565/565547.png',
-      ascii: asciiIcons.scope,
-      caption: 'The scope',
-    },
-  },
-  {
-    concept: 'Harness',
-    meaning: 'Software that wraps the LLM and lets it take actions',
-    analogy: 'The car around the engine',
-    image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/2830/2830305.png',
-      ascii: asciiIcons.harness,
-      caption: 'The holster',
-    },
+    concept: 'Context',
+    meaning: 'What the AI can "see" — your documents, code, instructions',
+    simple: 'More context = smarter responses',
+    icon: asciiIcons.context,
   },
   {
     concept: 'Tools',
-    meaning: 'Actions the AI can perform (read files, search, run code, browse)',
-    analogy: "The intern's toolkit",
-    image: {
-      url: 'https://cdn-icons-png.flaticon.com/512/1320/1320931.png',
-      ascii: asciiIcons.tools,
-      caption: 'The weapons',
-    },
+    meaning: 'Actions AI can take: search files, run code, browse the web, send emails',
+    simple: 'Skills, plugins, integrations — all just "tools"',
+    icon: asciiIcons.tools,
   },
 ];
 
-const harnesses = [
+const toolCategories = [
   {
-    name: 'Cursor',
-    bestFor: 'Large "legacy" projects',
-    strengths: 'Integrated editor, large repositories',
-    forWhom: 'If you want to read code or switch between models',
-    screenshot: 'https://cursor.com/og-image.png',
+    category: 'LLM Apps',
+    icon: asciiIcons.chat,
+    description: 'Chat interfaces to AI. Great for questions, writing, brainstorming.',
+    tools: [
+      { name: 'ChatGPT', note: 'Most popular, good all-rounder' },
+      { name: 'Claude', note: 'Best for long documents and nuanced writing' },
+      { name: 'Gemini', note: 'Google integration, real-time web access', hasPage: true, slug: 'gemini' },
+      { name: 'Perplexity', note: 'Search-first, cites sources' },
+    ],
+    canDo: ['Answer questions', 'Write and edit text', 'Analyze documents', 'Brainstorm ideas'],
+    cantDo: ['Take actions on your behalf', 'Access your local files', 'Remember past conversations long-term'],
   },
   {
-    name: 'Claude Code',
-    bestFor: 'Complex reasoning',
-    strengths: 'Cutting-edge, smartest reasoning, most "agency"',
-    forWhom: 'End-to-end problems, lots of tool use',
-    screenshot: 'https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F3ca5e9c29fcf27f72aa6f8f3e594c52f7e0d5b9a-2880x1620.png&w=3840&q=75',
+    category: 'Productivity Wrappers',
+    icon: asciiIcons.work,
+    description: 'AI that can take actions: browse, research, complete tasks autonomously.',
+    tools: [
+      { name: 'Manus', note: 'Research agent, can browse and synthesize' },
+      { name: 'Claude Work', note: 'Coming soon — Claude with computer use' },
+    ],
+    canDo: ['Research topics autonomously', 'Browse websites', 'Complete multi-step tasks', 'Work in the background'],
+    cantDo: ['Write code', 'Access your local development environment'],
   },
   {
-    name: 'OpenAI Codex',
-    bestFor: 'End-to-end automation',
-    strengths: 'Repository navigation, coordinated changes',
-    forWhom: 'Slow and accurate, "a surgeon\'s knife"',
-    screenshot: 'https://images.openai.com/blob/a10684c4-825a-429c-91dd-e06ebca91b7b/codex-research-preview.jpg?trim=0%2C0%2C0%2C0&width=2000',
-  },
-  {
-    name: 'Gemini CLI',
-    bestFor: 'Google ecosystem integration',
-    strengths: 'Fast execution, 1M token context window',
-    forWhom: 'GCP projects, multimodal tasks',
-    screenshot: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SS.width-1300.format-webp.webp',
-  },
-  {
-    name: 'Antigravity',
-    bestFor: 'Team collaboration',
-    strengths: 'Background agents, prompt sharing, team workflows',
-    forWhom: 'Teams wanting shared AI workflows',
-    screenshot: 'https://images.antigravity.dev/og-image.png',
+    category: 'Coding Tools',
+    icon: asciiIcons.code,
+    description: 'AI for software development. But they\'re also amazing for non-coding work.',
+    tools: [
+      { name: 'Cursor', note: 'AI-native IDE, great for existing projects', hasPage: true, slug: 'cursor' },
+      { name: 'Claude Code', note: 'Terminal agent, maximum autonomy', hasPage: true, slug: 'claude-code' },
+      { name: 'Codex', note: 'OpenAI\'s agent, slow and thorough' },
+      { name: 'Antigravity', note: 'Free, team-friendly, multiple models', hasPage: true, slug: 'antigravity' },
+    ],
+    canDo: ['Write and edit code', 'Read your entire codebase', 'Run commands', 'Create files and projects'],
+    cantDo: ['Replace human judgment', 'Know your context without you providing it'],
+    bonus: 'Pro tip: These tools work great for non-code tasks too — writing docs, analyzing data, automating workflows.',
   },
 ];
 
 export function ToolsPrimer() {
-  const [activeConceptIndex, setActiveConceptIndex] = useState<number | null>(null);
-  const [activeHarnessIndex, setActiveHarnessIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
     <Section id="tools-primer" className="py-24 px-8">
@@ -117,139 +99,155 @@ export function ToolsPrimer() {
           transition={{ delay: 0.2 }}
           className="text-lg text-[var(--text-muted)] mb-12"
         >
-          The vocabulary you need to navigate AI tools.
+          Quick vocabulary, then what to try.
         </motion.p>
 
-        {/* Core Concepts */}
+        {/* Core Concepts - Simplified */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 relative"
+          className="mb-16"
         >
-          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">Core Concepts</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[var(--border)]">
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">Concept</th>
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">What it means</th>
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">Analogy</th>
-                </tr>
-              </thead>
-              <tbody>
-                {concepts.map((item, index) => (
-                  <motion.tr
-                    key={item.concept}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    onHoverStart={() => setActiveConceptIndex(index)}
-                    onHoverEnd={() => setActiveConceptIndex(null)}
-                    onClick={() => setActiveConceptIndex(activeConceptIndex === index ? null : index)}
-                    className="border-b border-[var(--border)]/50 hover:bg-[var(--bg-panel)] cursor-pointer relative"
-                  >
-                    <td className="py-4 px-4 font-semibold text-[var(--accent-finn)]">
-                      <span className="inline-block mr-3 text-base font-mono">{item.image.ascii}</span>
-                      {item.concept}
-                    </td>
-                    <td className="py-4 px-4 text-[var(--text-primary)]">{item.meaning}</td>
-                    <td className="py-4 px-4 text-[var(--text-muted)] italic">{item.analogy}</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Concept image popup */}
-          <AnimatePresence>
-            {activeConceptIndex !== null && (
+          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">Three Things to Know</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {concepts.map((item, index) => (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                className="absolute z-50 right-0 top-1/2 -translate-y-1/2 translate-x-[calc(100%+1rem)]
-                           bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg
-                           shadow-2xl overflow-hidden p-4 flex flex-col items-center"
-                style={{ width: '160px' }}
+                key={item.concept}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-5 bg-[var(--bg-panel)] border border-[var(--border)] rounded-xl"
               >
-                <span className="text-[var(--accent-finn)] text-3xl font-mono mb-2">{concepts[activeConceptIndex].image.ascii}</span>
-                <div className="text-sm font-mono text-[var(--text-muted)] text-center">
-                  {concepts[activeConceptIndex].image.caption}
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-[var(--accent-finn)] text-lg font-mono">{item.icon}</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{item.concept}</span>
                 </div>
+                <p className="text-sm text-[var(--text-muted)] mb-2">{item.meaning}</p>
+                <p className="text-xs text-[var(--accent-finn)] italic">{item.simple}</p>
               </motion.div>
-            )}
-          </AnimatePresence>
+            ))}
+          </div>
         </motion.div>
 
-        {/* Harness Comparison - Table Format */}
+        {/* Tool Categories */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12 relative"
+          className="mb-12"
         >
-          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">Harness Comparison (January 2026)</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[var(--border)]">
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">Harness</th>
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">Best for</th>
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">Strengths</th>
-                  <th className="text-left py-3 px-4 text-[var(--text-muted)] font-mono text-sm">For whom</th>
-                </tr>
-              </thead>
-              <tbody>
-                {harnesses.map((harness, index) => (
-                  <motion.tr
-                    key={harness.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    onHoverStart={() => setActiveHarnessIndex(index)}
-                    onHoverEnd={() => setActiveHarnessIndex(null)}
-                    onClick={() => setActiveHarnessIndex(activeHarnessIndex === index ? null : index)}
-                    className="border-b border-[var(--border)]/50 hover:bg-[var(--bg-panel)] cursor-pointer"
-                  >
-                    <td className="py-4 px-4 font-semibold text-[var(--accent-finn)]">{harness.name}</td>
-                    <td className="py-4 px-4 text-[var(--text-primary)]">{harness.bestFor}</td>
-                    <td className="py-4 px-4 text-[var(--text-primary)]">{harness.strengths}</td>
-                    <td className="py-4 px-4 text-[var(--text-muted)]">{harness.forWhom}</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Harness screenshot popup */}
-          <AnimatePresence>
-            {activeHarnessIndex !== null && (
+          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-6">What Should I Try? (January 2026)</h3>
+          <div className="space-y-6">
+            {toolCategories.map((cat, catIndex) => (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                className="absolute z-50 right-0 top-1/2 -translate-y-1/2 translate-x-[calc(100%+1rem)]
-                           bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg
-                           shadow-2xl overflow-hidden"
-                style={{ width: '320px' }}
+                key={cat.category}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: catIndex * 0.1 }}
+                className="bg-[var(--bg-panel)] border border-[var(--border)] rounded-xl overflow-hidden"
               >
-                <img
-                  src={harnesses[activeHarnessIndex].screenshot}
-                  alt={`${harnesses[activeHarnessIndex].name} screenshot`}
-                  className="w-full h-auto"
-                  loading="lazy"
-                />
-                <div className="p-2 text-center text-sm font-mono text-[var(--text-muted)] bg-[var(--bg-panel)]">
-                  {harnesses[activeHarnessIndex].name}
-                </div>
+                {/* Category Header */}
+                <button
+                  onClick={() => setActiveCategory(activeCategory === catIndex ? null : catIndex)}
+                  className="w-full p-5 flex items-start gap-4 text-left hover:bg-[var(--bg-card)] transition-colors"
+                >
+                  <span className="text-[var(--accent-finn)] text-xl font-mono shrink-0">{cat.icon}</span>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-[var(--text-primary)] mb-1">{cat.category}</h4>
+                    <p className="text-sm text-[var(--text-muted)]">{cat.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {cat.tools.map((tool) => (
+                        tool.hasPage ? (
+                          <Link
+                            key={tool.name}
+                            href={`/tools/${tool.slug}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="px-3 py-1 text-sm bg-[var(--bg-primary)] border border-[var(--border)] rounded-full
+                                       text-[var(--text-primary)] hover:border-[var(--accent-finn)] hover:text-[var(--accent-finn)]
+                                       transition-colors"
+                          >
+                            {tool.name} →
+                          </Link>
+                        ) : (
+                          <span
+                            key={tool.name}
+                            className="px-3 py-1 text-sm bg-[var(--bg-primary)] border border-[var(--border)] rounded-full text-[var(--text-muted)]"
+                          >
+                            {tool.name}
+                          </span>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                  <span className={`text-[var(--text-dim)] transition-transform ${activeCategory === catIndex ? 'rotate-180' : ''}`}>
+                    ▼
+                  </span>
+                </button>
+
+                {/* Expanded Details */}
+                <AnimatePresence>
+                  {activeCategory === catIndex && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 pt-2 border-t border-[var(--border)]">
+                        <div className="grid md:grid-cols-2 gap-6">
+                          {/* Tools List */}
+                          <div>
+                            <h5 className="text-sm font-semibold text-[var(--text-muted)] mb-3 uppercase tracking-wide">Tools</h5>
+                            <div className="space-y-2">
+                              {cat.tools.map((tool) => (
+                                <div key={tool.name} className="flex items-start gap-2">
+                                  <span className="text-[var(--accent-success)] shrink-0">•</span>
+                                  <div>
+                                    <span className="font-medium text-[var(--text-primary)]">{tool.name}</span>
+                                    <span className="text-[var(--text-muted)] text-sm ml-2">— {tool.note}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Can/Can't */}
+                          <div className="space-y-4">
+                            <div>
+                              <h5 className="text-sm font-semibold text-[var(--accent-success)] mb-2">Can do</h5>
+                              <ul className="space-y-1 text-sm text-[var(--text-muted)]">
+                                {cat.canDo.map((item) => (
+                                  <li key={item}>✓ {item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h5 className="text-sm font-semibold text-[var(--accent-warn)] mb-2">Can&apos;t do</h5>
+                              <ul className="space-y-1 text-sm text-[var(--text-muted)]">
+                                {cat.cantDo.map((item) => (
+                                  <li key={item}>✗ {item}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+
+                        {cat.bonus && (
+                          <div className="mt-4 p-3 bg-[var(--accent-finn)]/10 border border-[var(--accent-finn)]/30 rounded-lg">
+                            <p className="text-sm text-[var(--text-primary)]">{cat.bonus}</p>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
-            )}
-          </AnimatePresence>
+            ))}
+          </div>
         </motion.div>
 
         {/* Recommendation */}
@@ -262,13 +260,34 @@ export function ToolsPrimer() {
           <div className="flex items-start gap-3">
             <span className="text-[var(--accent-finn)] text-lg font-mono shrink-0">{asciiIcons.bulb}</span>
             <div>
-              <div className="font-semibold text-[var(--text-primary)] mb-1">Recommendation</div>
+              <div className="font-semibold text-[var(--text-primary)] mb-1">Where to start?</div>
               <div className="text-[var(--text-muted)]">
-                Start with what&apos;s available (we have Cursor licenses). All harnesses are viable;
-                pick based on your workflow and vibes. Most power users combine multiple tools.
+                You probably already use ChatGPT or Claude. Good. Next step: try a coding tool like Cursor
+                (we have licenses) — even if you don&apos;t code. They&apos;re powerful for any complex task.
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Quick Start Link */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-8 text-center"
+        >
+          <Link
+            href="/tools"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--bg-card)] border border-[var(--border)]
+                       rounded-lg text-[var(--text-primary)] font-semibold
+                       hover:border-[var(--accent-finn)] hover:text-[var(--accent-finn)] transition-all"
+          >
+            <span>Quick Start Guides</span>
+            <span>→</span>
+          </Link>
+          <p className="mt-3 text-sm text-[var(--text-muted)]">
+            Step-by-step setup for each tool
+          </p>
         </motion.div>
       </div>
     </Section>

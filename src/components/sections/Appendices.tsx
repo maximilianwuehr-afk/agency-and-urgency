@@ -88,14 +88,52 @@ const appendices = [
     ],
   },
   {
+    id: 'beginner-guides',
+    title: 'D: Beginner Guides (Low Barrier)',
+    content: [
+      {
+        subtitle: 'ChatGPT fundamentals — OpenAI Academy',
+        text: 'Short, structured intro to ChatGPT basics with a copy-paste starter prompt. Good first 30 minutes.',
+      },
+      {
+        subtitle: 'What is ChatGPT: FAQ — OpenAI Help Center',
+        text: 'Plain-language overview: what it is, where to use it, and how to start your first chat.',
+      },
+      {
+        subtitle: 'Getting started with Claude — Anthropic Help Center',
+        text: 'Simple onramp with first-prompt tips; emphasizes conversational, plain-English requests.',
+      },
+      {
+        subtitle: 'Google AI Essentials — Coursera',
+        text: 'Beginner course focused on practical AI tool use and prompting; self-paced and non-technical.',
+      },
+      {
+        subtitle: 'Putting AI to Work — Every',
+        text: 'Curated collection of practical AI-use articles; good browsing for non-technical use cases (some posts are subscriber-only).',
+      },
+    ],
+    sources: [
+      { name: 'ChatGPT fundamentals — OpenAI Academy', url: 'https://academy.openai.com/public/resources/chatgpt-basics' },
+      { name: 'What is ChatGPT: FAQ — OpenAI Help Center', url: 'https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq' },
+      { name: 'Getting started with Claude — Anthropic Help Center', url: 'https://support.claude.com/en/articles/8114491-getting-started-with-claude' },
+      { name: 'Google AI Essentials — Coursera', url: 'https://www.coursera.org/specializations/ai-essentials-google' },
+      { name: 'Putting AI to Work — Every', url: 'https://every.to/c/ai-guides' },
+    ],
+  },
+  {
     id: 'sources',
-    title: 'D: All Sources',
+    title: 'E: All Sources',
     content: [],
     sources: [
+      { name: 'ChatGPT fundamentals — OpenAI Academy', url: 'https://academy.openai.com/public/resources/chatgpt-basics' },
       { name: 'Claude Code Guide — Eyad Khrais', url: 'https://x.com/eyad_khrais/status/2010076957938188661' },
+      { name: 'Getting started with Claude — Anthropic Help Center', url: 'https://support.claude.com/en/articles/8114491-getting-started-with-claude' },
+      { name: 'Google AI Essentials — Coursera', url: 'https://www.coursera.org/specializations/ai-essentials-google' },
+      { name: 'What is ChatGPT: FAQ — OpenAI Help Center', url: 'https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq' },
       { name: 'Agent-Native Architecture — Dan Shipper / Every', url: 'https://every.to/guides/agent-native' },
       { name: 'My Current AI Dev Workflow — Peter Steinberger', url: 'https://steipete.me/posts/2025/optimal-ai-development-workflow' },
       { name: 'Just Talk To It — Peter Steinberger', url: 'https://steipete.me/posts/just-talk-to-it' },
+      { name: 'Putting AI to Work — Every', url: 'https://every.to/c/ai-guides' },
       { name: 'Shipping at Inference-Speed — Peter Steinberger', url: 'https://steipete.me/posts/2025/shipping-at-inference-speed' },
       { name: 'Spec-Driven Development with Claude Code — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
     ],

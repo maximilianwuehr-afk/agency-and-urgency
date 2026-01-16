@@ -19,9 +19,9 @@ const factors = [
     description: 'Dive into areas outside your expertise. AI will help you. A PM can prototype code. A designer can query databases.',
     highlight: 'The barrier to entry has collapsed.',
     meme: {
-      url: 'https://media.giphy.com/media/3o7buirYcmV5nSwIRW/giphy.gif',
-      alt: 'Curious cat meme',
-      caption: 'What if I just... tried it?',
+      url: 'https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif',
+      alt: 'Mind blown meme',
+      caption: 'Wait, I can actually do this?',
     },
   },
   {

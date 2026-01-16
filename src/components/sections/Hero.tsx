@@ -15,7 +15,7 @@ const finnAscii = `
 
 export function Hero() {
   return (
-    <Section id="hero" fullHeight className="flex flex-col items-center justify-center px-8">
+    <Section id="hero" className="items-center justify-center px-8">
       <motion.pre
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -10,14 +10,13 @@ import { Examples } from '@/components/sections/Examples';
 import { WhatThisMeans } from '@/components/sections/WhatThisMeans';
 import { HowToStart } from '@/components/sections/HowToStart';
 import { Appendices } from '@/components/sections/Appendices';
-import { Footer } from '@/components/layout/Footer';
 import { AICli } from '@/components/cli/AICli';
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      {/* Main Content - Scrollytelling */}
-      <main className="lg:mr-[30%]">
+    <div className="h-screen overflow-hidden">
+      {/* Main Content - Snap scroll panes */}
+      <main className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory">
         <Hero />
         <ExecSummary />
         <RealityCheck />
@@ -28,7 +27,6 @@ export default function Home() {
         <WhatThisMeans />
         <HowToStart />
         <Appendices />
-        <Footer />
       </main>
 
       {/* AI CLI Panel - Fixed on right */}
@@ -36,7 +34,7 @@ export default function Home() {
         <AICli />
       </aside>
 
-      {/* Mobile CLI - Bottom drawer (TODO: implement mobile drawer) */}
+      {/* Mobile CLI - Bottom drawer */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[var(--bg-panel)] border-t border-[var(--border)] z-50">
         <div className="p-4 text-center text-sm text-[var(--text-muted)]">
           <span className="font-mono">AI Companion</span>

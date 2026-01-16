@@ -2,6 +2,11 @@
 
 import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 
+export interface SectionData {
+  userInput: string | string[];
+  aiResponse: string;
+}
+
 export interface SessionState {
   taskToAutomate: string;
   blocker: string;
@@ -9,8 +14,10 @@ export interface SessionState {
   selectedPath: string;
   generatedPrompt: string;
   completedSections: string[];
+  visitedSections: string[]; // Tracks order of visited sections (append-only)
   tokensUsed: number;
   currentSection: string;
+  sectionResponses: Record<string, SectionData>;
 }
 
 interface SessionContextType {
@@ -21,8 +28,11 @@ interface SessionContextType {
   setSelectedPath: (path: string) => void;
   setGeneratedPrompt: (prompt: string) => void;
   completeSection: (section: string) => void;
+  addVisitedSection: (section: string) => void;
   addTokens: (count: number) => void;
   setCurrentSection: (section: string) => void;
+  setSectionResponse: (section: string, data: SectionData) => void;
+  clearSectionResponse: (section: string) => void;
   reset: () => void;
 }
 
@@ -33,8 +43,10 @@ const initialState: SessionState = {
   selectedPath: '',
   generatedPrompt: '',
   completedSections: [],
+  visitedSections: ['hero'], // Start with hero
   tokensUsed: 0,
   currentSection: 'hero',
+  sectionResponses: {},
 };
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
@@ -71,12 +83,40 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const addVisitedSection = useCallback((section: string) => {
+    setState(prev => ({
+      ...prev,
+      visitedSections: prev.visitedSections.includes(section)
+        ? prev.visitedSections
+        : [...prev.visitedSections, section],
+    }));
+  }, []);
+
   const addTokens = useCallback((count: number) => {
     setState(prev => ({ ...prev, tokensUsed: prev.tokensUsed + count }));
   }, []);
 
   const setCurrentSection = useCallback((section: string) => {
     setState(prev => ({ ...prev, currentSection: section }));
+  }, []);
+
+  const setSectionResponse = useCallback((section: string, data: SectionData) => {
+    setState(prev => ({
+      ...prev,
+      sectionResponses: { ...prev.sectionResponses, [section]: data },
+    }));
+  }, []);
+
+  const clearSectionResponse = useCallback((section: string) => {
+    setState(prev => {
+      const newResponses = { ...prev.sectionResponses };
+      delete newResponses[section];
+      return {
+        ...prev,
+        sectionResponses: newResponses,
+        completedSections: prev.completedSections.filter(s => s !== section),
+      };
+    });
   }, []);
 
   const reset = useCallback(() => {
@@ -93,8 +133,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         setSelectedPath,
         setGeneratedPrompt,
         completeSection,
+        addVisitedSection,
         addTokens,
         setCurrentSection,
+        setSectionResponse,
+        clearSectionResponse,
         reset,
       }}
     >
