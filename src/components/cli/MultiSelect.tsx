@@ -4,27 +4,17 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { tools } from '@/lib/prompts';
 
-const ACKNOWLEDGMENTS = [
-  "Toolkit noted.",
-  "Got your stack.",
-  "Tools logged.",
-  "Arsenal recorded.",
-  "Inventory saved.",
-];
-
-function getAcknowledgment(): string {
-  return ACKNOWLEDGMENTS[Math.floor(Math.random() * ACKNOWLEDGMENTS.length)];
-}
-
 interface MultiSelectProps {
   onSubmit: (selected: string[]) => void;
   disabled?: boolean;
+  section?: string;
 }
 
-export function MultiSelect({ onSubmit, disabled }: MultiSelectProps) {
+export function MultiSelect({ onSubmit, disabled, section }: MultiSelectProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [acknowledgment, setAcknowledgment] = useState('');
+  const [isLoadingAck, setIsLoadingAck] = useState(false);
 
   const toggleTool = (toolId: string) => {
     if (submitted) return;
@@ -33,12 +23,32 @@ export function MultiSelect({ onSubmit, disabled }: MultiSelectProps) {
     );
   };
 
-  const handleSubmit = useCallback(() => {
+  const fetchAcknowledgment = async (toolNames: string[]) => {
+    try {
+      const input = toolNames.length === 0 ? 'none' : toolNames.join(', ');
+      const res = await fetch('/api/acknowledge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input, section: section || 'tools' }),
+      });
+      const data = await res.json();
+      return data.acknowledgment || 'Noted.';
+    } catch {
+      return 'Noted.';
+    }
+  };
+
+  const handleSubmit = useCallback(async () => {
     if (disabled || submitted) return;
-    setAcknowledgment(getAcknowledgment());
     setSubmitted(true);
+    setIsLoadingAck(true);
     onSubmit(selected);
-  }, [disabled, submitted, selected, onSubmit]);
+
+    const toolNames = selected.map(id => tools.find(t => t.id === id)?.name || id);
+    const ack = await fetchAcknowledgment(toolNames);
+    setAcknowledgment(ack);
+    setIsLoadingAck(false);
+  }, [disabled, submitted, selected, onSubmit, section]);
 
   // Global Enter key listener for this component
   useEffect(() => {
@@ -87,7 +97,7 @@ export function MultiSelect({ onSubmit, disabled }: MultiSelectProps) {
           {selected.length === 0 ? 'None selected' : selected.map(id => tools.find(t => t.id === id)?.name).join(', ')}
         </div>
         <div className="text-[var(--text-muted)] text-sm italic">
-          {acknowledgment}
+          {isLoadingAck ? '...' : acknowledgment}
         </div>
       </motion.div>
     );

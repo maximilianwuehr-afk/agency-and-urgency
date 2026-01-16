@@ -11,6 +11,7 @@ export interface SessionState {
   taskToAutomate: string;
   blocker: string;
   toolsTried: string[];
+  learningGoal: string;
   selectedPath: string;
   generatedPrompt: string;
   completedSections: string[];
@@ -25,6 +26,7 @@ interface SessionContextType {
   setTaskToAutomate: (task: string) => void;
   setBlocker: (blocker: string) => void;
   setToolsTried: (tools: string[]) => void;
+  setLearningGoal: (goal: string) => void;
   setSelectedPath: (path: string) => void;
   setGeneratedPrompt: (prompt: string) => void;
   completeSection: (section: string) => void;
@@ -40,6 +42,7 @@ const initialState: SessionState = {
   taskToAutomate: '',
   blocker: '',
   toolsTried: [],
+  learningGoal: '',
   selectedPath: '',
   generatedPrompt: '',
   completedSections: [],
@@ -64,6 +67,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const setToolsTried = useCallback((tools: string[]) => {
     setState(prev => ({ ...prev, toolsTried: tools }));
+  }, []);
+
+  const setLearningGoal = useCallback((goal: string) => {
+    setState(prev => ({ ...prev, learningGoal: goal }));
   }, []);
 
   const setSelectedPath = useCallback((path: string) => {
@@ -130,6 +137,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         setTaskToAutomate,
         setBlocker,
         setToolsTried,
+        setLearningGoal,
         setSelectedPath,
         setGeneratedPrompt,
         completeSection,

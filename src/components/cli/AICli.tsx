@@ -11,12 +11,11 @@ import { FreeTextInput } from './FreeTextInput';
 import { MultiSelect } from './MultiSelect';
 import { OptionCards, Option } from './OptionCards';
 import { GeneratedPrompt } from './GeneratedPrompt';
-import { ContextDemo } from './ContextDemo';
 
 interface SectionConfig {
   command: string;
   question?: string;
-  type: 'welcome' | 'reading' | 'free-text' | 'multi-select' | 'options' | 'context-demo' | 'prompt';
+  type: 'welcome' | 'reading' | 'free-text' | 'multi-select' | 'options' | 'prompt';
 }
 
 const sectionConfig: Record<string, SectionConfig> = {
@@ -44,8 +43,9 @@ const sectionConfig: Record<string, SectionConfig> = {
     type: 'multi-select',
   },
   'context-game': {
-    command: 'finn-ai demo --context-window',
-    type: 'context-demo',
+    command: 'finn-ai learn --goal',
+    question: 'What do you want AI to learn about your work, or what do you want to build?',
+    type: 'free-text',
   },
   examples: {
     command: 'finn-ai suggest --personalized',
@@ -88,6 +88,7 @@ function TerminalSection({
 
   // For options section
   const [options, setOptions] = useState<Option[]>([]);
+  const [hasTriggered, setHasTriggered] = useState(false);
   const { sendMessage, response, isLoading } = useChat({
     section: sectionId,
     onComplete: (fullResponse) => {
@@ -106,16 +107,18 @@ function TerminalSection({
     },
   });
 
-  // Auto-trigger for options and prompt sections
+  // Auto-trigger for options and prompt sections (only once)
   useEffect(() => {
-    if (isNew && !isCompleted) {
+    if (isNew && !isCompleted && !hasTriggered) {
       if (sectionId === 'examples') {
+        setHasTriggered(true);
         sendMessage('generate options');
       } else if (sectionId === 'practical-guide') {
+        setHasTriggered(true);
         sendMessage('generate prompt');
       }
     }
-  }, [sectionId, isNew, isCompleted, sendMessage]);
+  }, [sectionId, isNew, isCompleted, hasTriggered, sendMessage]);
 
   const handleFreeTextSubmit = (value: string) => {
     onSubmitFreeText(sectionId, value);
@@ -160,6 +163,7 @@ function TerminalSection({
             placeholder="Type your answer..."
             onSubmit={handleFreeTextSubmit}
             disabled={isLoading}
+            section={sectionId}
           />
         </div>
       )}
@@ -168,12 +172,9 @@ function TerminalSection({
       {config.type === 'multi-select' && (
         <div className="space-y-3">
           <div className="text-[var(--text-primary)]">{config.question}</div>
-          <MultiSelect onSubmit={handleMultiSelectSubmit} disabled={isLoading} />
+          <MultiSelect onSubmit={handleMultiSelectSubmit} disabled={isLoading} section={sectionId} />
         </div>
       )}
-
-      {/* Context demo */}
-      {config.type === 'context-demo' && <ContextDemo />}
 
       {/* Options */}
       {config.type === 'options' && (
@@ -211,6 +212,7 @@ export function AICli() {
     setTaskToAutomate,
     setBlocker,
     setToolsTried,
+    setLearningGoal,
     setSelectedPath,
     completeSection,
     setGeneratedPrompt,
@@ -262,9 +264,11 @@ export function AICli() {
       setTaskToAutomate(value);
     } else if (section === 'success-factors') {
       setBlocker(value);
+    } else if (section === 'context-game') {
+      setLearningGoal(value);
     }
     sendMessage(value);
-  }, [setTaskToAutomate, setBlocker, sendMessage]);
+  }, [setTaskToAutomate, setBlocker, setLearningGoal, sendMessage]);
 
   const handleSubmitMultiSelect = useCallback((section: string, tools: string[]) => {
     setToolsTried(tools);

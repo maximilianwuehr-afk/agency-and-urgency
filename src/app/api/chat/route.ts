@@ -30,12 +30,21 @@ Their task they want to automate: "${sessionState?.taskToAutomate || 'not specif
 Their task: "${sessionState?.taskToAutomate || 'not specified'}"
 Their blocker: "${sessionState?.blocker || 'not specified'}"`;
         break;
+      case 'context-game':
+        systemPrompt = systemPrompts.contextGame;
+        userMessage = `The user wants AI to learn or build: "${message}"
+
+Their task: "${sessionState?.taskToAutomate || 'not specified'}"
+Their blocker: "${sessionState?.blocker || 'not specified'}"
+Tools tried: ${sessionState?.toolsTried?.join(', ') || 'not specified'}`;
+        break;
       case 'examples':
         systemPrompt = systemPrompts.examples;
         userMessage = `Generate 3 project options based on:
 - Task they want to automate: "${sessionState?.taskToAutomate || 'general productivity'}"
 - What's been stopping them: "${sessionState?.blocker || 'getting started'}"
 - Tools they've tried: ${sessionState?.toolsTried?.join(', ') || 'basic tools'}
+- What they want AI to learn/build: "${sessionState?.learningGoal || 'not specified'}"
 
 Return ONLY a JSON array, no other text.`;
         break;
@@ -45,6 +54,7 @@ Return ONLY a JSON array, no other text.`;
 - Task: "${sessionState?.taskToAutomate || 'improve productivity'}"
 - Blocker: "${sessionState?.blocker || 'knowing where to start'}"
 - Tools tried: ${sessionState?.toolsTried?.join(', ') || 'ChatGPT'}
+- Learning goal: "${sessionState?.learningGoal || 'not specified'}"
 - Selected approach: "${sessionState?.selectedPath || 'general automation'}"`;
         break;
       default:

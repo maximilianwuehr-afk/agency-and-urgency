@@ -3,32 +3,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// Witty acknowledgments that can't be fooled
-const ACKNOWLEDGMENTS = [
-  "Got it. Let's work with that.",
-  "Noted. Moving on.",
-  "Interesting choice. Saved.",
-  "Logged. No take-backs.",
-  "Understood. Next.",
-  "Captured. Onward.",
-];
-
-function getAcknowledgment(): string {
-  return ACKNOWLEDGMENTS[Math.floor(Math.random() * ACKNOWLEDGMENTS.length)];
-}
-
 interface FreeTextInputProps {
   placeholder?: string;
   onSubmit: (value: string) => void;
   disabled?: boolean;
+  section?: string;
 }
 
-export function FreeTextInput({ placeholder = 'Type your answer...', onSubmit, disabled }: FreeTextInputProps) {
+export function FreeTextInput({ placeholder = 'Type your answer...', onSubmit, disabled, section }: FreeTextInputProps) {
   const [value, setValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submittedValue, setSubmittedValue] = useState('');
   const [acknowledgment, setAcknowledgment] = useState('');
+  const [isLoadingAck, setIsLoadingAck] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-focus on mount
@@ -41,21 +29,39 @@ export function FreeTextInput({ placeholder = 'Type your answer...', onSubmit, d
     }
   }, [submitted]);
 
-  const handleSubmit = () => {
+  const fetchAcknowledgment = async (input: string) => {
+    try {
+      const res = await fetch('/api/acknowledge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input, section: section || 'general' }),
+      });
+      const data = await res.json();
+      return data.acknowledgment || 'Noted.';
+    } catch {
+      return 'Noted.';
+    }
+  };
+
+  const handleSubmit = async () => {
     const trimmed = value.trim();
     if (!trimmed || disabled || submitted) return;
 
     // Validate: must have actual content (not just punctuation/spaces)
     const hasContent = /[a-zA-Z0-9]/.test(trimmed);
     if (!hasContent || trimmed.length < 3) {
-      // Don't accept gibberish
       return;
     }
 
     setSubmittedValue(trimmed);
-    setAcknowledgment(getAcknowledgment());
     setSubmitted(true);
+    setIsLoadingAck(true);
     onSubmit(trimmed);
+
+    // Fetch witty acknowledgment from Haiku
+    const ack = await fetchAcknowledgment(trimmed);
+    setAcknowledgment(ack);
+    setIsLoadingAck(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -78,7 +84,7 @@ export function FreeTextInput({ placeholder = 'Type your answer...', onSubmit, d
           {submittedValue}
         </div>
         <div className="text-[var(--text-muted)] text-sm italic">
-          {acknowledgment}
+          {isLoadingAck ? '...' : acknowledgment}
         </div>
       </motion.div>
     );
