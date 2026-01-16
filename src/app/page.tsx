@@ -14,9 +14,9 @@ import { AICli } from '@/components/cli/AICli';
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-hidden">
-      {/* Main Content - Snap scroll panes */}
-      <main className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory">
+    <div className="min-h-screen">
+      {/* Main Content - Scrollytelling */}
+      <main className="lg:mr-[30%]">
         <Hero />
         <ExecSummary />
         <RealityCheck />

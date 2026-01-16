@@ -46,7 +46,7 @@ export function Section({ id, children, className = '' }: SectionProps) {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.4 }}
-      className={`h-screen w-full snap-start snap-always overflow-y-auto flex flex-col ${className}`}
+      className={`min-h-screen w-full py-16 md:py-24 px-6 md:px-12 ${className}`}
     >
       {children}
     </motion.section>
