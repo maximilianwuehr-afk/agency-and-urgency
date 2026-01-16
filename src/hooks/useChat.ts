@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useSession } from '@/context/SessionContext';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useSession, SessionState } from '@/context/SessionContext';
 
 interface UseChatOptions {
   section: string;
@@ -14,11 +14,20 @@ export function useChat({ section, onComplete }: UseChatOptions) {
   const [error, setError] = useState<string | null>(null);
   const { state, addTokens } = useSession();
 
+  // Use ref to always get latest state in sendMessage
+  const stateRef = useRef<SessionState>(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   const sendMessage = useCallback(
     async (message: string | string[]) => {
       setIsLoading(true);
       setResponse('');
       setError(null);
+
+      // Use ref to get current state value
+      const currentState = stateRef.current;
 
       try {
         const res = await fetch('/api/chat', {
@@ -27,7 +36,7 @@ export function useChat({ section, onComplete }: UseChatOptions) {
           body: JSON.stringify({
             message,
             section,
-            sessionState: state,
+            sessionState: currentState,
           }),
         });
 
@@ -76,7 +85,7 @@ export function useChat({ section, onComplete }: UseChatOptions) {
         setIsLoading(false);
       }
     },
-    [section, state, addTokens, onComplete]
+    [section, addTokens, onComplete]
   );
 
   return { sendMessage, response, isLoading, error };
