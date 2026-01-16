@@ -196,8 +196,7 @@ function TerminalSection({
       {config.type === 'prompt' && (
         <div className="space-y-3">
           {isLoading && <ThinkingSpinner isActive />}
-          {response && <StreamingText text={response} isComplete={!isLoading} />}
-          {state.generatedPrompt && !isLoading && (
+          {!isLoading && state.generatedPrompt && (
             <GeneratedPrompt prompt={state.generatedPrompt} />
           )}
         </div>

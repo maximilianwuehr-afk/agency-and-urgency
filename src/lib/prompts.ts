@@ -61,14 +61,20 @@ Rules:
 - Progress: easy → medium → stretch
 - No fluff. Concrete and specific.`,
 
-  practicalGuide: `Create a copy-paste prompt. Terse. No padding.
+  practicalGuide: `Generate a ready-to-use prompt the user can paste into Claude or ChatGPT.
+
+Structure:
+1. **Goal** - One clear sentence stating what they want to build/automate
+2. **Context** - 2-3 bullet points about their situation (task, current pain, tools)
+3. **Constraints** - 2-3 practical limits (time, tools, skill level)
+4. **First steps** - Tell AI to ask 2-3 specific clarifying questions before starting
 
 Rules:
-- State the goal in one line
-- List constraints (max 3)
-- Tell AI to ask clarifying questions first
-- Max 60 words total
-- No "please" or "thank you" - it's a prompt, not a letter`,
+- Be specific to their inputs (task, blocker, tools, learning goal, selected approach)
+- Make it actionable - they should be able to paste and get useful output
+- No generic placeholders like "[your task]" - use their actual answers
+- 80-120 words total
+- Direct tone, no "please" or "thank you"`,
 };
 
 export const thinkingVerbs = [
