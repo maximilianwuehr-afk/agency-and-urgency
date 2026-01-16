@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect, useCallback } from 'react';
 import { Hero } from '@/components/sections/Hero';
 import { ExecSummary } from '@/components/sections/ExecSummary';
 import { RealityCheck } from '@/components/sections/RealityCheck';
@@ -12,11 +13,66 @@ import { HowToStart } from '@/components/sections/HowToStart';
 import { Appendices } from '@/components/sections/Appendices';
 import { AICli } from '@/components/cli/AICli';
 
+const SECTIONS = [
+  'hero',
+  'exec-summary',
+  'reality-check',
+  'success-factors',
+  'tools-primer',
+  'context-game',
+  'examples',
+  'what-this-means',
+  'practical-guide',
+  'appendices',
+];
+
 export default function Home() {
+  const mainRef = useRef<HTMLElement>(null);
+
+  // Auto-focus main on mount for keyboard nav
+  useEffect(() => {
+    mainRef.current?.focus();
+  }, []);
+
+  const scrollToSection = useCallback((direction: 'next' | 'prev') => {
+    const main = mainRef.current;
+    if (!main) return;
+
+    const currentScroll = main.scrollTop;
+    const sectionHeight = main.clientHeight;
+    const currentIndex = Math.round(currentScroll / sectionHeight);
+
+    const targetIndex = direction === 'next'
+      ? Math.min(currentIndex + 1, SECTIONS.length - 1)
+      : Math.max(currentIndex - 1, 0);
+
+    const targetSection = document.getElementById(SECTIONS[targetIndex]);
+    targetSection?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    // Don't intercept if user is typing in an input
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      return;
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      scrollToSection('next');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      scrollToSection('prev');
+    }
+  }, [scrollToSection]);
   return (
-    <div className="min-h-screen">
-      {/* Main Content - Scrollytelling */}
-      <main className="lg:mr-[30%]">
+    <div className="h-screen overflow-hidden">
+      {/* Main Content - Snap scroll panes */}
+      <main
+        ref={mainRef}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory focus:outline-none"
+      >
         <Hero />
         <ExecSummary />
         <RealityCheck />
