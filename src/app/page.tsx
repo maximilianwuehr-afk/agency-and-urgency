@@ -29,11 +29,6 @@ const SECTIONS = [
 export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
 
-  // Auto-focus main on mount for keyboard nav
-  useEffect(() => {
-    mainRef.current?.focus();
-  }, []);
-
   const scrollToSection = useCallback((direction: 'next' | 'prev') => {
     const main = mainRef.current;
     if (!main) return;
@@ -50,28 +45,32 @@ export default function Home() {
     targetSection?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    // Don't intercept if user is typing in an input
-    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-      return;
-    }
+  // Global keyboard listener for snap navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
 
-    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      scrollToSection('next');
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      scrollToSection('prev');
-    }
+      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        scrollToSection('next');
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        scrollToSection('prev');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [scrollToSection]);
   return (
     <div className="h-screen overflow-hidden">
       {/* Main Content - Snap scroll panes */}
       <main
         ref={mainRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory focus:outline-none"
+        className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory"
       >
         <Hero />
         <ExecSummary />
