@@ -2,27 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Section } from '@/components/ui/Section';
+import { PresentationSection } from '../PresentationSection';
+import { PresentationContent } from '@/lib/presentation-content';
 
-const statements = [
-  {
-    title: 'AI usage is expected at FINN.',
-    description: 'This is not a "nice to have." Not using AI is like not using email in 2005 — technically possible, but you\'re handicapping yourself.',
-    accent: 'var(--accent-finn)',
-  },
-  {
-    title: 'You can enter areas outside your competence.',
-    description: 'A PM can prototype. A designer can analyze data. An ops manager can automate workflows. The barriers have fallen.',
-    accent: 'var(--accent-success)',
-  },
-  {
-    title: 'We want to ship faster for customers.',
-    description: 'AI lets us do in hours what used to take weeks. Every improvement shipped faster is value delivered sooner.',
-    accent: 'var(--text-primary)',
-  },
-];
+interface PresWhatThisMeansProps {
+  content: PresentationContent;
+}
 
-// Typewriter headline component
 function TypewriterHeadline({ text, accent, isVisible }: { text: string; accent: string; isVisible: boolean }) {
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
@@ -40,7 +26,6 @@ function TypewriterHeadline({ text, accent, isVisible }: { text: string; accent:
         index++;
       } else {
         clearInterval(interval);
-        // Hide cursor after typing complete
         setTimeout(() => setShowCursor(false), 500);
       }
     }, 40);
@@ -50,7 +35,7 @@ function TypewriterHeadline({ text, accent, isVisible }: { text: string; accent:
 
   return (
     <h3
-      className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 font-mono"
+      className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 font-mono"
       style={{ color: accent }}
     >
       {displayText}
@@ -61,22 +46,23 @@ function TypewriterHeadline({ text, accent, isVisible }: { text: string; accent:
   );
 }
 
-export function WhatThisMeans() {
+export function PresWhatThisMeans({ content }: PresWhatThisMeansProps) {
+  const { whatThisMeans } = content;
   const [visibleStatements, setVisibleStatements] = useState<Set<number>>(new Set());
 
   return (
-    <Section id="what-this-means" className="py-24">
+    <PresentationSection id="what-this-means" className="py-24">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-bold mb-16 text-[var(--text-primary)] text-center px-8"
+        className="text-3xl md:text-5xl font-bold mb-16 text-[var(--text-primary)] text-center px-8"
       >
-        What This Means for You
+        {whatThisMeans.title}
       </motion.h2>
 
       <div className="space-y-0">
-        {statements.map((statement, index) => (
+        {whatThisMeans.statements.map((statement, index) => (
           <motion.div
             key={statement.title}
             initial={{ opacity: 0 }}
@@ -86,12 +72,12 @@ export function WhatThisMeans() {
             onViewportEnter={() => {
               setVisibleStatements(prev => new Set([...prev, index]));
             }}
-            className="min-h-[50vh] flex items-center justify-center px-8"
+            className="min-h-[60vh] flex items-center justify-center px-8"
             style={{
               background: index % 2 === 0 ? 'var(--bg-panel)' : 'var(--bg-primary)',
             }}
           >
-            <div className="max-w-3xl text-center">
+            <div className="max-w-4xl text-center">
               <TypewriterHeadline
                 text={statement.title}
                 accent={statement.accent}
@@ -101,7 +87,7 @@ export function WhatThisMeans() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={visibleStatements.has(index) ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: statement.title.length * 0.04 + 0.3 }}
-                className="text-lg md:text-xl text-[var(--text-muted)] max-w-2xl mx-auto"
+                className="text-xl md:text-2xl text-[var(--text-muted)] max-w-3xl mx-auto"
               >
                 {statement.description}
               </motion.p>
@@ -109,6 +95,6 @@ export function WhatThisMeans() {
           </motion.div>
         ))}
       </div>
-    </Section>
+    </PresentationSection>
   );
 }

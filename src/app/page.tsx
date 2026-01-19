@@ -12,6 +12,7 @@ import { WhatThisMeans } from '@/components/sections/WhatThisMeans';
 import { HowToStart } from '@/components/sections/HowToStart';
 import { Appendices } from '@/components/sections/Appendices';
 import { AICli } from '@/components/cli/AICli';
+import { PresentationModeToggle } from '@/components/presentation/PresentationModeToggle';
 
 const SECTIONS = [
   'hero',
@@ -67,20 +68,27 @@ export default function Home() {
   }, [scrollToSection]);
   return (
     <div className="h-screen overflow-hidden">
+      {/* Presentation Mode Toggle */}
+      <PresentationModeToggle />
+
       {/* Main Content - Snap scroll panes */}
       <main
         ref={mainRef}
-        className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory"
+        className="h-screen overflow-y-scroll snap-y snap-mandatory"
       >
-        <Hero />
-        <ExecSummary />
-        <RealityCheck />
-        <SuccessFactors />
-        <ToolsPrimer />
-        <ContextGame />
-        <Examples />
-        <WhatThisMeans />
-        <HowToStart />
+        {/* Two-panel sections (constrained width for CLI panel) */}
+        <div className="lg:mr-[30%]">
+          <Hero />
+          <ExecSummary />
+          <RealityCheck />
+          <SuccessFactors />
+          <ToolsPrimer />
+          <ContextGame />
+          <Examples />
+          <WhatThisMeans />
+          <HowToStart />
+        </div>
+        {/* Appendices - Full width */}
         <Appendices />
       </main>
 

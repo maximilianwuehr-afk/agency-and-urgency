@@ -1,24 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useSession } from '@/context/SessionContext';
+
+const TOTAL_SECTIONS = 10;
 
 export function StatusBar() {
   const { state } = useSession();
-  const [scrollPercent, setScrollPercent] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const percent = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
-      setScrollPercent(percent);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial call
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Calculate progress based on visited sections
+  const progress = Math.round((state.visitedSections.length / TOTAL_SECTIONS) * 100);
+  const filledBars = Math.ceil(state.visitedSections.length);
 
   return (
     <div className="px-4 py-2 text-xs font-mono text-[var(--text-dim)]">
@@ -29,12 +20,12 @@ export function StatusBar() {
         <span className="flex items-center gap-2">
           context:
           <span className="inline-flex items-center gap-0.5">
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({ length: TOTAL_SECTIONS }).map((_, i) => (
               <span
                 key={i}
                 className={`w-1 h-3 transition-colors ${
-                  i < Math.ceil(scrollPercent / 10)
-                    ? scrollPercent >= 70
+                  i < filledBars
+                    ? progress >= 70
                       ? 'bg-[var(--accent-warn)]'
                       : 'bg-[var(--text-muted)]'
                     : 'bg-[var(--border)]'
@@ -42,12 +33,12 @@ export function StatusBar() {
               />
             ))}
           </span>
-          <span className={`tabular-nums ${scrollPercent >= 70 ? 'text-[var(--accent-warn)]' : 'text-[var(--text-muted)]'}`}>
-            {scrollPercent}%
+          <span className={`tabular-nums ${progress >= 70 ? 'text-[var(--accent-warn)]' : 'text-[var(--text-muted)]'}`}>
+            {progress}%
           </span>
         </span>
       </div>
-      {scrollPercent >= 70 && (
+      {progress >= 70 && (
         <div className="mt-1 text-[var(--accent-warn)]">
           ! context filling — quality may degrade
         </div>

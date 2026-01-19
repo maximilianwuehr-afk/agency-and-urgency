@@ -183,7 +183,22 @@ function TerminalSection({
       {/* Options */}
       {config.type === 'options' && (
         <div className="space-y-3">
-          <div className="text-[var(--text-primary)]">{config.question}</div>
+          {/* Personalized context summary */}
+          <div className="text-[var(--text-muted)] text-xs space-y-1">
+            {state.taskToAutomate && (
+              <div>→ task: <span className="text-[var(--text-primary)]">{state.taskToAutomate}</span></div>
+            )}
+            {state.blocker && (
+              <div>→ blocker: <span className="text-[var(--text-primary)]">{state.blocker}</span></div>
+            )}
+            {state.toolsTried.length > 0 && (
+              <div>→ tools: <span className="text-[var(--text-primary)]">{state.toolsTried.join(', ')}</span></div>
+            )}
+            {state.learningGoal && (
+              <div>→ goal: <span className="text-[var(--text-primary)]">{state.learningGoal}</span></div>
+            )}
+          </div>
+          <div className="text-[var(--text-primary)] mt-2">{config.question}</div>
           {isLoading && <ThinkingSpinner isActive />}
           {options.length > 0 && !isCompleted && (
             <OptionCards options={options} onSelect={handleOptionSelect} />

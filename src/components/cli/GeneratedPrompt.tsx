@@ -59,14 +59,14 @@ export function GeneratedPrompt({ prompt }: GeneratedPromptProps) {
         </button>
 
         <a
-          href="https://claude.ai/new"
+          href="https://gemini.google.com/app"
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 py-2.5 px-4 bg-transparent border border-[var(--border)] text-[var(--text-muted)]
                      font-mono text-sm hover:border-[var(--accent-finn)] hover:text-[var(--accent-finn)]
                      transition-colors text-center rounded"
         >
-          Open Claude.ai →
+          Open Gemini →
         </a>
       </div>
     </motion.div>
