@@ -368,11 +368,6 @@ export const EN_CONTENT: PresentationContent = {
         description: 'AI lets you do in hours what used to take weeks. Every improvement shipped faster is value delivered sooner.',
         accent: 'var(--text-primary)',
       },
-      {
-        title: 'Quality still matters.',
-        description: "Don't fully trust AI output. Verify before shipping. AI generates fast; you validate outcomes & test.",
-        accent: 'var(--accent-warn)',
-      },
     ],
   },
   howToStart: {
@@ -453,7 +448,7 @@ export const DE_CONTENT: PresentationContent = {
         description: 'Ich habe ein Slack CLI in 10 Stunden gebaut. Ein Obsidian-Plugin in 3 Stunden. Das sind keine Hypothesen — das ist mein tatsächlicher Workflow. Die Produktivitätsgewinne sind real.',
       },
     ],
-    closingLine: 'Dieser Leitfaden ist das, was ich mir gewünscht hätte, als ich angefangen habe. Ich hoffe, er hilft auch dir.',
+    closingLine: '',
   },
   execSummary: {
     title: 'Zusammenfassung',
@@ -665,11 +660,6 @@ export const DE_CONTENT: PresentationContent = {
         title: 'Du kannst schneller liefern.',
         description: 'KI lässt dich in Stunden erledigen, was früher Wochen gedauert hat. Jede schneller gelieferte Verbesserung ist früher gelieferter Wert.',
         accent: 'var(--text-primary)',
-      },
-      {
-        title: 'Qualität zählt weiterhin.',
-        description: 'Vertraue KI-Output nicht blind. Verifiziere vor dem Shippen. KI generiert schnell; du validierst Ergebnisse & testest.',
-        accent: 'var(--accent-warn)',
       },
     ],
   },

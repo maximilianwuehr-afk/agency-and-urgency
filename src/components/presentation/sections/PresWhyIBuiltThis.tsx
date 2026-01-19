@@ -57,15 +57,17 @@ export function PresWhyIBuiltThis({ content }: PresWhyIBuiltThisProps) {
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="text-lg text-[var(--text-muted)] italic"
-        >
-          {whyIBuiltThis.closingLine}
-        </motion.p>
+        {whyIBuiltThis.closingLine && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="text-lg text-[var(--text-muted)] italic"
+          >
+            {whyIBuiltThis.closingLine}
+          </motion.p>
+        )}
       </div>
     </PresentationSection>
   );
