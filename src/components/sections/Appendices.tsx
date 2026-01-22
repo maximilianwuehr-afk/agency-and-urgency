@@ -7,7 +7,8 @@ import { Section } from '@/components/ui/Section';
 const appendices = [
   {
     id: 'peter',
-    title: "A: Peter Steinberger's Workflow",
+    label: 'A',
+    title: "Peter Steinberger's Workflow",
     content: [
       {
         subtitle: '"I don\'t read code anymore"',
@@ -34,7 +35,8 @@ const appendices = [
   },
   {
     id: 'agent-native',
-    title: 'B: Agent-Native Architecture',
+    label: 'B',
+    title: 'Agent-Native Architecture',
     content: [
       {
         subtitle: 'Five Principles',
@@ -58,7 +60,8 @@ const appendices = [
   },
   {
     id: 'spec-driven',
-    title: 'C: For Engineers — Spec-Driven Development',
+    label: 'C',
+    title: 'Spec-Driven Development',
     content: [
       {
         subtitle: 'The Core Idea',
@@ -84,12 +87,13 @@ const appendices = [
       },
     ],
     sources: [
-      { name: 'Spec-Driven Development with Claude Code — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
+      { name: 'Spec-Driven Development — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
     ],
   },
   {
     id: 'beginner-guides',
-    title: 'D: Beginner Guides (Low Barrier)',
+    label: 'D',
+    title: 'Beginner Guides',
     content: [
       {
         subtitle: 'ChatGPT fundamentals — OpenAI Academy',
@@ -109,7 +113,7 @@ const appendices = [
       },
       {
         subtitle: 'Putting AI to Work — Every',
-        text: 'Curated collection of practical AI-use articles; good browsing for non-technical use cases (some posts are subscriber-only).',
+        text: 'Curated collection of practical AI-use articles; good browsing for non-technical use cases.',
       },
     ],
     sources: [
@@ -122,7 +126,8 @@ const appendices = [
   },
   {
     id: 'sources',
-    title: 'E: All Sources',
+    label: 'E',
+    title: 'All Sources',
     content: [],
     sources: [
       { name: 'ChatGPT fundamentals — OpenAI Academy', url: 'https://academy.openai.com/public/resources/chatgpt-basics' },
@@ -135,7 +140,7 @@ const appendices = [
       { name: 'Just Talk To It — Peter Steinberger', url: 'https://steipete.me/posts/just-talk-to-it' },
       { name: 'Putting AI to Work — Every', url: 'https://every.to/c/ai-guides' },
       { name: 'Shipping at Inference-Speed — Peter Steinberger', url: 'https://steipete.me/posts/2025/shipping-at-inference-speed' },
-      { name: 'Spec-Driven Development with Claude Code — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
+      { name: 'Spec-Driven Development — Ashpreet Bedi', url: 'https://x.com/ashpreetbedi/status/2011220028453241218' },
     ],
   },
 ];
@@ -144,109 +149,158 @@ export function Appendices() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <Section id="appendices" className="py-24 px-8">
-      <div className="max-w-4xl mx-auto">
-        <motion.h2
+    <Section id="appendices" className="min-h-screen flex flex-col justify-center py-16 md:py-24">
+      <div className="w-full max-w-6xl mx-auto px-6 md:px-8">
+        {/* Header */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-primary)]"
+          className="mb-10"
         >
-          Appendices
-        </motion.h2>
+          <div className="flex items-baseline gap-3 mb-2">
+            <span className="text-xs font-mono text-[var(--accent-finn)] tracking-widest">
+              ./appendices
+            </span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] font-mono">
+            Deep Dives
+          </h2>
+          <p className="text-sm text-[var(--text-dim)] mt-2 font-mono">
+            For those who want more.
+          </p>
+        </motion.div>
 
-        <motion.p
+        {/* Accordion List */}
+        <div className="space-y-2">
+          {appendices.map((appendix, index) => {
+            const isOpen = openId === appendix.id;
+
+            return (
+              <motion.div
+                key={appendix.id}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+              >
+                {/* Accordion Header */}
+                <button
+                  onClick={() => setOpenId(isOpen ? null : appendix.id)}
+                  className={`w-full group text-left transition-all duration-200
+                             border border-[var(--border)] hover:border-[var(--text-dim)]
+                             ${isOpen ? 'bg-[var(--bg-card)] border-[var(--text-dim)]' : 'bg-transparent'}`}
+                >
+                  <div className="flex items-center gap-4 px-4 py-3">
+                    {/* Label */}
+                    <span className={`font-mono text-xs w-5 transition-colors
+                                    ${isOpen ? 'text-[var(--accent-finn)]' : 'text-[var(--text-dim)] group-hover:text-[var(--text-muted)]'}`}>
+                      {appendix.label}:
+                    </span>
+
+                    {/* Title */}
+                    <span className={`flex-1 font-mono text-sm transition-colors
+                                    ${isOpen ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text-primary)]'}`}>
+                      {appendix.title}
+                    </span>
+
+                    {/* Indicator */}
+                    <motion.span
+                      animate={{ rotate: isOpen ? 90 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`font-mono text-xs transition-colors
+                                ${isOpen ? 'text-[var(--accent-finn)]' : 'text-[var(--text-dim)]'}`}
+                    >
+                      →
+                    </motion.span>
+                  </div>
+                </button>
+
+                {/* Accordion Content */}
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      className="overflow-hidden"
+                    >
+                      <div className="border-x border-b border-[var(--text-dim)] bg-[var(--bg-panel)]">
+                        <div className="px-4 py-5 space-y-5">
+                          {/* Content Items */}
+                          {appendix.content.map((item, i) => (
+                            <div key={i} className="space-y-2">
+                              {item.subtitle && (
+                                <h4 className="text-sm font-semibold text-[var(--text-primary)]">
+                                  {item.subtitle}
+                                </h4>
+                              )}
+                              {item.text && (
+                                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                                  {item.text}
+                                </p>
+                              )}
+                              {item.list && (
+                                <ul className="space-y-1.5 ml-1">
+                                  {item.list.map((li, j) => (
+                                    <li key={j} className="text-sm text-[var(--text-muted)] flex gap-2 leading-relaxed">
+                                      <span className="text-[var(--accent-finn)] font-mono text-xs mt-0.5">{j + 1}.</span>
+                                      <span>{li}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          ))}
+
+                          {/* Sources */}
+                          {appendix.sources.length > 0 && (
+                            <div className="pt-4 mt-4 border-t border-[var(--border)]">
+                              <div className="text-xs font-mono text-[var(--text-dim)] mb-3 tracking-wide">
+                                sources:
+                              </div>
+                              <div className="space-y-1.5">
+                                {appendix.sources.map((source, i) => (
+                                  <a
+                                    key={i}
+                                    href={source.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group/link flex items-center gap-2 text-sm text-[var(--text-muted)]
+                                             hover:text-[var(--accent-finn)] transition-colors"
+                                  >
+                                    <span className="font-mono text-[var(--text-dim)] text-xs">→</span>
+                                    <span className="group-hover/link:underline underline-offset-2">
+                                      {source.name}
+                                    </span>
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Footer hint */}
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-lg text-[var(--text-muted)] mb-12"
+          transition={{ delay: 0.3 }}
+          className="mt-8 text-center"
         >
-          Deep dives for those who want more.
-        </motion.p>
-
-        <div className="space-y-4">
-          {appendices.map((appendix, index) => (
-            <motion.div
-              key={appendix.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="border border-[var(--border)] rounded-xl overflow-hidden"
-            >
-              <button
-                onClick={() => setOpenId(openId === appendix.id ? null : appendix.id)}
-                className="w-full p-5 flex items-center justify-between text-left
-                           bg-[var(--bg-panel)] hover:bg-[var(--bg-card)] transition-colors"
-              >
-                <span className="font-semibold text-[var(--text-primary)]">{appendix.title}</span>
-                <motion.span
-                  animate={{ rotate: openId === appendix.id ? 180 : 0 }}
-                  className="text-[var(--text-muted)]"
-                >
-                  ↓
-                </motion.span>
-              </button>
-
-              <AnimatePresence>
-                {openId === appendix.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="p-5 bg-[var(--bg-primary)] space-y-6">
-                      {appendix.content.map((item, i) => (
-                        <div key={i}>
-                          {item.subtitle && (
-                            <h4 className="font-semibold text-[var(--accent-glow)] mb-2">
-                              {item.subtitle}
-                            </h4>
-                          )}
-                          {item.text && (
-                            <p className="text-[var(--text-muted)]">{item.text}</p>
-                          )}
-                          {item.list && (
-                            <ul className="space-y-2 mt-2">
-                              {item.list.map((li, j) => (
-                                <li key={j} className="text-[var(--text-muted)] flex gap-2">
-                                  <span className="text-[var(--accent-finn)]">{j + 1}.</span>
-                                  {li}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      ))}
-
-                      {appendix.sources.length > 0 && (
-                        <div className="pt-4 border-t border-[var(--border)]">
-                          <div className="text-xs font-mono text-[var(--text-muted)] mb-2">Sources:</div>
-                          <div className="space-y-1">
-                            {appendix.sources.map((source, i) => (
-                              <a
-                                key={i}
-                                href={source.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block text-sm text-[var(--accent-finn)] hover:underline"
-                              >
-                                {source.name} ↗
-                              </a>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
+          <span className="text-xs font-mono text-[var(--text-dim)]">
+            click to expand
+          </span>
+        </motion.div>
       </div>
     </Section>
   );

@@ -96,13 +96,21 @@ function TerminalSection({
     onComplete: (fullResponse) => {
       if (sectionId === 'examples') {
         try {
-          const parsed = JSON.parse(fullResponse);
+          // Try to extract JSON from response (handle markdown code blocks)
+          let jsonStr = fullResponse;
+          const jsonMatch = fullResponse.match(/\[[\s\S]*\]/);
+          if (jsonMatch) {
+            jsonStr = jsonMatch[0];
+          }
+          const parsed = JSON.parse(jsonStr);
           setOptions(parsed);
         } catch {
+          // Fallback: generate task-aware options
+          const task = state.taskToAutomate || 'your workflow';
           setOptions([
-            { id: '1', title: 'Build a simple automation', description: 'Start with something small', difficulty: 'easy' },
-            { id: '2', title: 'Create a workflow tool', description: 'Combine multiple steps', difficulty: 'medium' },
-            { id: '3', title: 'Full project with AI', description: 'End-to-end development', difficulty: 'stretch' },
+            { id: '1', title: `Quick ${task.split(' ')[0]} draft`, description: 'AI generates first version', difficulty: 'easy' },
+            { id: '2', title: `${task.split(' ')[0]} template system`, description: 'Reusable prompts for consistency', difficulty: 'medium' },
+            { id: '3', title: `Full ${task.split(' ')[0]} automation`, description: 'End-to-end AI workflow', difficulty: 'stretch' },
           ]);
         }
       } else if (sectionId === 'what-this-means') {
@@ -183,22 +191,7 @@ function TerminalSection({
       {/* Options */}
       {config.type === 'options' && (
         <div className="space-y-3">
-          {/* Personalized context summary */}
-          <div className="text-[var(--text-muted)] text-xs space-y-1">
-            {state.taskToAutomate && (
-              <div>→ task: <span className="text-[var(--text-primary)]">{state.taskToAutomate}</span></div>
-            )}
-            {state.blocker && (
-              <div>→ blocker: <span className="text-[var(--text-primary)]">{state.blocker}</span></div>
-            )}
-            {state.toolsTried.length > 0 && (
-              <div>→ tools: <span className="text-[var(--text-primary)]">{state.toolsTried.join(', ')}</span></div>
-            )}
-            {state.learningGoal && (
-              <div>→ goal: <span className="text-[var(--text-primary)]">{state.learningGoal}</span></div>
-            )}
-          </div>
-          <div className="text-[var(--text-primary)] mt-2">{config.question}</div>
+          <div className="text-[var(--text-primary)]">{config.question}</div>
           {isLoading && <ThinkingSpinner isActive />}
           {options.length > 0 && !isCompleted && (
             <OptionCards options={options} onSelect={handleOptionSelect} />

@@ -43,10 +43,9 @@ const finnExamples = [
     description: 'Using Cursor with dbt repo to query warehouse without raw SQL',
   },
   {
-    name: 'Obsidian Plugin',
-    by: 'Max W.',
-    description: 'Auto-tagging summarization in <3 hours using free models',
-    stat: '<3h',
+    name: 'CV Screener',
+    by: 'Jan Heiselbetz',
+    description: 'AI pre-screens applications and drafts recruiter summaries',
   },
 ];
 

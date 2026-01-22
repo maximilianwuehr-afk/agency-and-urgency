@@ -74,21 +74,17 @@ export default function Home() {
       {/* Main Content - Snap scroll panes */}
       <main
         ref={mainRef}
-        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+        className="lg:mr-[30%] h-screen overflow-y-scroll snap-y snap-mandatory"
       >
-        {/* Two-panel sections (constrained width for CLI panel) */}
-        <div className="lg:mr-[30%]">
-          <Hero />
-          <ExecSummary />
-          <RealityCheck />
-          <SuccessFactors />
-          <ToolsPrimer />
-          <ContextGame />
-          <Examples />
-          <WhatThisMeans />
-          <HowToStart />
-        </div>
-        {/* Appendices - Full width */}
+        <Hero />
+        <ExecSummary />
+        <RealityCheck />
+        <SuccessFactors />
+        <ToolsPrimer />
+        <ContextGame />
+        <Examples />
+        <WhatThisMeans />
+        <HowToStart />
         <Appendices />
       </main>
 

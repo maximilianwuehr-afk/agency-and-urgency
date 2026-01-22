@@ -40,13 +40,19 @@ Tools tried: ${sessionState?.toolsTried?.join(', ') || 'not specified'}`;
         break;
       case 'examples':
         systemPrompt = systemPrompts.examples;
-        userMessage = `Generate 3 project options based on:
-- Task they want to automate: "${sessionState?.taskToAutomate || 'general productivity'}"
-- What's been stopping them: "${sessionState?.blocker || 'getting started'}"
-- Tools they've tried: ${sessionState?.toolsTried?.join(', ') || 'basic tools'}
-- What they want AI to learn/build: "${sessionState?.learningGoal || 'not specified'}"
+        const task = sessionState?.taskToAutomate || '';
+        const blocker = sessionState?.blocker || '';
+        const tools = sessionState?.toolsTried?.join(', ') || '';
+        const goal = sessionState?.learningGoal || '';
 
-Return ONLY a JSON array, no other text.`;
+        userMessage = task
+          ? `User's task: "${task}"
+${blocker ? `Their blocker: "${blocker}"` : ''}
+${tools ? `Tools they use: ${tools}` : ''}
+${goal ? `Their goal: "${goal}"` : ''}
+
+Generate 3 options specifically about "${task}" - from quick win to ambitious project.`
+          : `User skipped inputs. Generate 3 generic but concrete AI project ideas for a business professional.`;
         break;
       case 'practical-guide':
         systemPrompt = systemPrompts.practicalGuide;

@@ -51,15 +51,19 @@ Examples:
 - "Build a dashboard" → "Dashboards are doable. Define the metrics."
 - "I dunno" → "Vague goals get vague results. Pick something concrete."`,
 
-  examples: `Generate 3 project ideas as JSON. Terse descriptions.
+  examples: `Generate 3 personalized project ideas as JSON based on the user's specific task and context.
 
 Format: [{"id":"1","title":"...","description":"...","difficulty":"easy"},...]
 
 Rules:
-- Titles: 2-4 words
-- Descriptions: Under 10 words
-- Progress: easy → medium → stretch
-- No fluff. Concrete and specific.`,
+- Each option must directly relate to their stated task - NOT generic "automation" or "workflow" placeholders
+- Title: 2-4 words, specific to THEIR task (e.g. "Report Draft Bot" not "Build automation")
+- Description: Under 10 words, concrete action they can take
+- Difficulty progression: easy (quick win, 30 min) → medium (half day) → stretch (weekend project)
+- If they want help with "weekly reports", all 3 options should be about reports
+- NO generic suggestions. Every option must feel tailored to them.
+
+Return ONLY the JSON array, no markdown, no explanation.`,
 
   practicalGuide: `Generate a ready-to-use prompt the user can paste into Claude or ChatGPT.
 

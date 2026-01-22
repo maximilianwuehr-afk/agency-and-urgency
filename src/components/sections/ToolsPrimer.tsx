@@ -38,9 +38,9 @@ const concepts = [
 
 const toolCategories = [
   {
-    category: 'LLM Apps',
+    category: 'Chat Interfaces for LLMs',
     icon: asciiIcons.chat,
-    description: 'Chat interfaces to AI. Great for questions, writing, brainstorming.',
+    description: 'Chat UIs for questions, writing, brainstorming, and quick analysis.',
     tools: [
       { name: 'ChatGPT', note: 'Most popular, good all-rounder' },
       { name: 'Claude', note: 'Best for long documents and nuanced writing' },
@@ -51,20 +51,31 @@ const toolCategories = [
     cantDo: ['Take actions on your behalf', 'Access your local files', 'Remember past conversations long-term'],
   },
   {
-    category: 'Productivity Wrappers',
+    category: 'Apps integrating AI with work',
     icon: asciiIcons.work,
-    description: 'AI that can take actions: browse, research, complete tasks autonomously.',
+    description: 'AI connected to workflows: can take action across multiple tools and apps.',
     tools: [
       { name: 'Manus', note: 'Research agent, can browse and synthesize' },
+      { name: 'Claude Cowork', note: 'Task-focused agent for work coordination' },
+      { name: 'Relevance.ai', note: 'Workflow automation and AI pipelines for teams' },
       { name: 'Claude Work', note: 'Coming soon — Claude with computer use' },
     ],
-    canDo: ['Research topics autonomously', 'Browse websites', 'Complete multi-step tasks', 'Work in the background'],
-    cantDo: ['Write code', 'Access your local development environment'],
+    canDo: [
+      'Connect multiple tools in one workflow',
+      'Trigger actions across apps (docs, email, CRM)',
+      'Handle multi-step tasks with handoffs/approvals',
+      'Keep work moving in the background',
+    ],
+    cantDo: [
+      'Act without permission or access',
+      'Know your business rules unless you define them',
+      'Work across tools that are not connected',
+    ],
   },
   {
-    category: 'Coding Tools',
+    category: 'Coding Agents',
     icon: asciiIcons.code,
-    description: 'AI for software development. But they\'re also amazing for non-coding work.',
+    description: 'AI agents for software development. Also useful for non-coding work.',
     tools: [
       { name: 'Cursor', note: 'AI-native IDE, great for existing projects', hasPage: true, slug: 'cursor' },
       { name: 'Claude Code', note: 'Terminal agent, maximum autonomy', hasPage: true, slug: 'claude-code' },
@@ -89,7 +100,7 @@ export function ToolsPrimer() {
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-bold mb-4 text-[var(--text-primary)]"
         >
-          Tools Primer
+          A map for AI tools
         </motion.h2>
 
         <motion.p
@@ -262,7 +273,7 @@ export function ToolsPrimer() {
             <div>
               <div className="font-semibold text-[var(--text-primary)] mb-1">Where to start?</div>
               <div className="text-[var(--text-muted)]">
-                You probably already use ChatGPT or Claude. Good. Next step: try a coding tool like Cursor
+                You probably already use ChatGPT or Claude. Good. Next step: try a coding agent like Cursor
                 (we have licenses) — even if you don&apos;t code. They&apos;re powerful for any complex task.
               </div>
             </div>
