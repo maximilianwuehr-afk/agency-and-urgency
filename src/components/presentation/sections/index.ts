@@ -1,4 +1,6 @@
 export { PresHero } from './PresHero';
+export { PresSpeakerBackground } from './PresSpeakerBackground';
+export { PresSessionInsight } from './PresSessionInsight';
 export { PresWhyIBuiltThis } from './PresWhyIBuiltThis';
 export { PresExecSummary } from './PresExecSummary';
 export { PresRealityCheck } from './PresRealityCheck';

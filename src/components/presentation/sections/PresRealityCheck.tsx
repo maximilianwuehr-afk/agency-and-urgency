@@ -13,7 +13,7 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
   const { realityCheck } = content;
 
   return (
-    <PresentationSection id="reality-check" className="py-24 px-8">
+    <PresentationSection id="reality-check" className="py-16 px-8">
       <div className="max-w-6xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -29,23 +29,23 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-xl text-[var(--text-muted)] mb-16 max-w-3xl"
+          className="text-lg md:text-xl text-[var(--text-muted)] mb-10 max-w-3xl"
         >
           {realityCheck.intro}
         </motion.p>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           {/* AI Can */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-[var(--bg-panel)] border border-[var(--accent-success)]/30 rounded-xl p-8"
+            className="bg-[var(--bg-panel)] border border-[var(--accent-success)]/30 rounded-xl p-6"
           >
-            <h3 className="text-2xl font-semibold text-[var(--accent-success)] mb-8 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-semibold text-[var(--accent-success)] mb-6 flex items-center gap-3">
               <span>✓</span> {realityCheck.canTitle}
             </h3>
-            <ul className="space-y-5">
+            <ul className="space-y-4">
               {realityCheck.aiCan.map((item, index) => (
                 <motion.li
                   key={index}
@@ -53,7 +53,7 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-4 text-lg text-[var(--text-primary)]"
+                  className="flex items-start gap-4 text-base md:text-lg text-[var(--text-primary)]"
                 >
                   <span className="text-[var(--accent-success)] shrink-0">✓</span>
                   {item}
@@ -67,12 +67,12 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-[var(--bg-panel)] border border-[var(--accent-warn)]/30 rounded-xl p-8"
+            className="bg-[var(--bg-panel)] border border-[var(--accent-warn)]/30 rounded-xl p-6"
           >
-            <h3 className="text-2xl font-semibold text-[var(--accent-warn)] mb-8 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-semibold text-[var(--accent-warn)] mb-6 flex items-center gap-3">
               <span>✗</span> {realityCheck.cantTitle}
             </h3>
-            <ul className="space-y-5">
+            <ul className="space-y-4">
               {realityCheck.aiCant.map((item, index) => (
                 <motion.li
                   key={index}
@@ -80,7 +80,7 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-4 text-lg text-[var(--text-primary)]"
+                  className="flex items-start gap-4 text-base md:text-lg text-[var(--text-primary)]"
                 >
                   <span className="text-[var(--accent-warn)] shrink-0">✗</span>
                   {item}
@@ -88,6 +88,7 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
               ))}
             </ul>
           </motion.div>
+
         </div>
 
         {/* Quote */}
@@ -95,9 +96,9 @@ export function PresRealityCheck({ content }: PresRealityCheckProps) {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative p-8 bg-[var(--bg-card)] border-l-4 border-[var(--accent-finn)] rounded-r-xl"
+          className="relative p-6 bg-[var(--bg-card)] border-l-4 border-[var(--accent-finn)] rounded-r-xl"
         >
-          <div className="text-2xl md:text-3xl font-medium text-[var(--text-primary)] mb-4">
+          <div className="text-xl md:text-2xl font-medium text-[var(--text-primary)] mb-4">
             &quot;{realityCheck.quote.split('20x')[0]}
             <span className="text-[var(--accent-glow)] glow-cyan">
               <StatCounter end={20} suffix="x" glow />

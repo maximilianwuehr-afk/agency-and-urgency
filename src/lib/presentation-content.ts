@@ -11,6 +11,18 @@ export interface WhyIBuiltThisContent {
   closingLine: string;
 }
 
+export interface SpeakerBackgroundContent {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  proofPoints: {
+    label: string;
+    title: string;
+    text: string;
+  }[];
+  takeaway: string;
+}
+
 export interface ExecSummaryContent {
   title: string;
   points: {
@@ -97,6 +109,25 @@ export interface WhatThisMeansContent {
   }[];
 }
 
+export interface SessionInsightContent {
+  id: string;
+  label: string;
+  title: string;
+  subtitle: string;
+  points: {
+    title: string;
+    text: string;
+  }[];
+  takeaway: string;
+  accent: string;
+}
+
+export interface SessionInsightsContent {
+  governance: SessionInsightContent;
+  careers: SessionInsightContent;
+  customerContact: SessionInsightContent;
+}
+
 export interface HowToStartContent {
   title: string;
   subtitle: string;
@@ -121,6 +152,7 @@ export interface PresentationContent {
     title: string;
     subtitle: string;
   };
+  speakerBackground: SpeakerBackgroundContent;
   whyIBuiltThis: WhyIBuiltThisContent;
   execSummary: ExecSummaryContent;
   realityCheck: RealityCheckContent;
@@ -128,6 +160,7 @@ export interface PresentationContent {
   toolsPrimer: ToolsPrimerContent;
   examples: ExamplesContent;
   whatThisMeans: WhatThisMeansContent;
+  sessionInsights: SessionInsightsContent;
   howToStart: HowToStartContent;
   closing: ClosingContent;
 }
@@ -137,6 +170,29 @@ export const EN_CONTENT: PresentationContent = {
   hero: {
     title: 'AI with agency & urgency',
     subtitle: 'A practical guide for business leaders — January 2026',
+  },
+  speakerBackground: {
+    eyebrow: 'Why me',
+    title: 'Operator, not AI pundit',
+    intro: 'I am Maximilian Wühr, CEO of FINN. FINN is a car-subscription company in Germany and the US, with digital demand, financing, fleet operations, logistics and customer operations in one operating system.',
+    proofPoints: [
+      {
+        label: 'Context',
+        title: 'SME constraints, at scale',
+        text: 'Speed, margin, quality and customer trust matter at the same time. AI is not a lab topic; it is a leadership and execution topic.',
+      },
+      {
+        label: 'Surface',
+        title: 'Real operating breadth',
+        text: 'We see AI in recruiting, customer service, engineering, data, marketing and internal workflows, where the work actually happens.',
+      },
+      {
+        label: 'Practice',
+        title: 'Personal daily usage',
+        text: 'I use these tools myself to build products, automate workflows and prepare better decisions.',
+      },
+    ],
+    takeaway: 'FINN is not the point. The point is that these patterns transfer to every organization with too much work, too little time and high quality expectations.',
   },
   whyIBuiltThis: {
     title: 'Why I Built This',
@@ -380,6 +436,74 @@ export const EN_CONTENT: PresentationContent = {
       },
     ],
   },
+  sessionInsights: {
+    governance: {
+      id: 'quality-governance',
+      label: 'From the last session',
+      title: 'Quality comes from judgement, not from banning the tool',
+      subtitle: 'Good AI usage needs rules, but the operating model is still human accountability.',
+      points: [
+        {
+          title: 'AI remains a tool',
+          text: 'The person using it still owns prioritization, decisions and outcomes.',
+        },
+        {
+          title: 'Regulation should focus the work',
+          text: 'Clear criteria, approval paths and guardrails matter more than broad fear-based bans.',
+        },
+        {
+          title: 'AI can improve quality',
+          text: 'Use it as a review layer for drafts, analyses and decisions before a human signs off.',
+        },
+      ],
+      takeaway: 'The bar is not “AI produced it”. The bar is “a responsible person reviewed it and stands behind it”.',
+      accent: 'var(--accent-finn)',
+    },
+    careers: {
+      id: 'career-shift',
+      label: 'From the last session',
+      title: 'Careers will change, but expertise compounds',
+      subtitle: 'AI makes expertise more accessible, but it also makes expert judgement more valuable.',
+      points: [
+        {
+          title: 'Expert value scales',
+          text: 'Experts become more important because AI multiplies the reach of good judgement.',
+        },
+        {
+          title: 'Junior roles get more leverage',
+          text: 'Juniors can onboard faster, generate more impact earlier and explore solutions more fearlessly.',
+        },
+        {
+          title: 'The shape changes',
+          text: 'Some tasks disappear. The need for learning, taste, judgement and ownership does not.',
+        },
+      ],
+      takeaway: 'AI does not remove the career ladder. It changes what people need to learn first.',
+      accent: 'var(--accent-glow)',
+    },
+    customerContact: {
+      id: 'customer-contact',
+      label: 'From the last session',
+      title: 'Customer centricity still differentiates',
+      subtitle: 'AI can make companies more customer-centric, but it does not replace prioritization or trust.',
+      points: [
+        {
+          title: 'Feedback becomes easier to use',
+          text: 'AI helps understand customer signals, summarize patterns and translate them into action.',
+        },
+        {
+          title: 'Human contact is not always the answer',
+          text: 'For simple jobs-to-be-done, less handoff and more disintermediation can be the better experience.',
+        },
+        {
+          title: 'Trust still needs people',
+          text: 'When the product is an experience or a trust question, human interaction remains hard to replace.',
+        },
+      ],
+      takeaway: 'You do not win because humans talk to customers. You win because the organization makes better customer-prioritized decisions.',
+      accent: 'var(--accent-success)',
+    },
+  },
   howToStart: {
     title: 'Practical Guide',
     subtitle: 'How to actually use AI effectively, step by step.',
@@ -440,6 +564,29 @@ export const DE_CONTENT: PresentationContent = {
   hero: {
     title: 'KI mit Selbstbestimmtheit & Dringlichkeit',
     subtitle: 'Ein praktischer Leitfaden für Führungskräfte — Januar 2026',
+  },
+  speakerBackground: {
+    eyebrow: 'Warum ich?',
+    title: 'Praktiker, nicht KI-Kommentator',
+    intro: 'Ich bin Maximilian Wühr, CEO von FINN. FINN ist eine Car-Subscription-Plattform in Deutschland und den USA: digitale Nachfrage, Finanzierung, Flotte, Logistik und Kundenservice in einem operativen System.',
+    proofPoints: [
+      {
+        label: 'Kontext',
+        title: 'KMU-Realität, nur größer',
+        text: 'Auch bei FINN sind Geschwindigkeit, Marge, Qualität und Kundenvertrauen gleichzeitig relevant. KI ist kein Laborthema, sondern ein Führungs- und Umsetzungsthema.',
+      },
+      {
+        label: 'Fläche',
+        title: 'Breite operative Praxis',
+        text: 'Wir sehen KI in Recruiting, Customer Service, Engineering, Data, Marketing und internen Workflows, also dort, wo Arbeit tatsächlich passiert.',
+      },
+      {
+        label: 'Praxis',
+        title: 'Eigene Nutzung jeden Tag',
+        text: 'Ich nutze diese Tools selbst, um Produkte zu bauen, Workflows zu automatisieren und Entscheidungen besser vorzubereiten.',
+      },
+    ],
+    takeaway: 'FINN ist nicht der Punkt. Der Punkt ist: Die Muster übertragen sich auf jede Organisation mit zu viel Arbeit, zu wenig Zeit und hohen Qualitätsansprüchen.',
   },
   whyIBuiltThis: {
     title: 'Warum ich das gemacht habe',
@@ -682,6 +829,74 @@ export const DE_CONTENT: PresentationContent = {
         accent: 'var(--text-primary)',
       },
     ],
+  },
+  sessionInsights: {
+    governance: {
+      id: 'quality-governance',
+      label: 'Aus der letzten Session',
+      title: 'Qualität entsteht durch Judgement, nicht durch Tool-Verbot',
+      subtitle: 'Gute KI-Nutzung braucht Regeln, aber das Operating Model bleibt menschliche Verantwortung.',
+      points: [
+        {
+          title: 'KI bleibt ein Tool',
+          text: 'Die Person, die es nutzt, verantwortet weiterhin Priorisierung, Entscheidungen und Ergebnisse.',
+        },
+        {
+          title: 'Reglementierung fokussiert die Arbeit',
+          text: 'Klare Kriterien, Freigabewege und Guardrails sind hilfreicher als pauschale Verbote aus Angst.',
+        },
+        {
+          title: 'KI kann Qualität verbessern',
+          text: 'Nutze sie als Review-Layer für Texte, Analysen und Entscheidungen, bevor ein Mensch final freigibt.',
+        },
+      ],
+      takeaway: 'Der Standard ist nicht: “KI hat es erstellt.” Der Standard ist: “Ein verantwortlicher Mensch hat es geprüft und steht dahinter.”',
+      accent: 'var(--accent-finn)',
+    },
+    careers: {
+      id: 'career-shift',
+      label: 'Aus der letzten Session',
+      title: 'Karrieren verändern sich, aber Expertise skaliert',
+      subtitle: 'KI macht Expertise leichter zugänglich, aber gutes Experten-Judgement wird dadurch wertvoller.',
+      points: [
+        {
+          title: 'Expertenwert vervielfältigt sich',
+          text: 'Experten werden nicht weniger wichtig, weil KI die Reichweite von gutem Urteil erhöht.',
+        },
+        {
+          title: 'Juniorrollen bekommen mehr Hebel',
+          text: 'Junioren können schneller onboarden, früher Impact erzeugen und oft furchtloser experimentieren.',
+        },
+        {
+          title: 'Die Form verändert sich',
+          text: 'Manche Aufgaben verschwinden. Lernen, Taste, Urteilskraft und Ownership bleiben zentral.',
+        },
+      ],
+      takeaway: 'KI schafft die Karriereleiter nicht ab. Sie verändert, was Menschen zuerst lernen müssen.',
+      accent: 'var(--accent-glow)',
+    },
+    customerContact: {
+      id: 'customer-contact',
+      label: 'Aus der letzten Session',
+      title: 'Kundenzentrierung bleibt Differenzierung',
+      subtitle: 'KI kann Unternehmen kundenzentrierter machen, ersetzt aber weder Priorisierung noch Vertrauen.',
+      points: [
+        {
+          title: 'Feedback wird leichter nutzbar',
+          text: 'KI hilft, Kundensignale zu verstehen, Muster zu erkennen und sie in konkrete Aktionen zu übersetzen.',
+        },
+        {
+          title: 'Menschlicher Kontakt ist nicht immer besser',
+          text: 'Bei einfachen Jobs-to-be-done kann weniger Übergabe und mehr Disintermediation die bessere Nutzererfahrung sein.',
+        },
+        {
+          title: 'Vertrauen braucht weiter Menschen',
+          text: 'Wenn es um eine Erfahrung oder Vertrauensfrage geht, bleibt menschliche Interaktion schwer ersetzbar.',
+        },
+      ],
+      takeaway: 'Man gewinnt nicht, weil Menschen mit Kunden sprechen. Man gewinnt, weil die Organisation bessere kundenzentrierte Entscheidungen trifft.',
+      accent: 'var(--accent-success)',
+    },
   },
   howToStart: {
     title: 'Praktischer Leitfaden',

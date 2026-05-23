@@ -5,6 +5,8 @@ import { PresentationContent } from '@/lib/presentation-content';
 import { LanguageToggle } from './LanguageToggle';
 import {
   PresHero,
+  PresSpeakerBackground,
+  PresSessionInsight,
   PresWhyIBuiltThis,
   PresExecSummary,
   PresRealityCheck,
@@ -18,13 +20,17 @@ import {
 
 const SECTIONS = [
   'hero',
+  'speaker-background',
   'why-i-built-this',
   'exec-summary',
   'reality-check',
+  'quality-governance',
   'success-factors',
   'tools-primer',
   'examples',
   'what-this-means',
+  'career-shift',
+  'customer-contact',
   'practical-guide',
   'closing',
 ];
@@ -81,13 +87,17 @@ export function PresentationPage({ content }: PresentationPageProps) {
         className="h-screen overflow-y-scroll snap-y snap-mandatory"
       >
         <PresHero content={content} />
+        <PresSpeakerBackground content={content} />
         <PresWhyIBuiltThis content={content} />
         <PresExecSummary content={content} />
         <PresRealityCheck content={content} />
+        <PresSessionInsight insight={content.sessionInsights.governance} />
         <PresSuccessFactors content={content} />
         <PresToolsPrimer content={content} />
         <PresExamples content={content} />
         <PresWhatThisMeans content={content} />
+        <PresSessionInsight insight={content.sessionInsights.careers} />
+        <PresSessionInsight insight={content.sessionInsights.customerContact} />
         <PresHowToStart content={content} />
         <PresClosing content={content} />
       </main>
