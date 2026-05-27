@@ -23,18 +23,20 @@ export function PresExamples({ content }: PresExamplesProps) {
           {examples.title}
         </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-[var(--text-muted)] mb-16"
-        >
-          {examples.subtitle}
-        </motion.p>
+        {examples.subtitle && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-[var(--text-muted)] mb-16"
+          >
+            {examples.subtitle}
+          </motion.p>
+        )}
 
         {/* External Examples */}
-        <div className="mb-16">
+        <div className={examples.subtitle ? 'mb-16' : 'mb-16 mt-12'}>
           <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-8">{examples.externalTitle}</h3>
           <div className="grid md:grid-cols-3 gap-6">
             {examples.external.map((example, index) => (

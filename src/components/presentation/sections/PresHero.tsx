@@ -17,17 +17,23 @@ export function PresHero({ content }: PresHeroProps) {
         transition={{ delay: 0.3, duration: 0.6 }}
         className="text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-8"
       >
-        <span className="text-[var(--text-primary)]">
-          {content.lang === 'de' ? 'KI mit ' : 'AI with '}
-        </span>
-        <span className="text-[var(--accent-glow)] glow-cyan">
-          {content.lang === 'de' ? 'Selbstbestimmtheit' : 'agency'}
-        </span>
-        <br />
-        <span className="text-[var(--text-primary)]">& </span>
-        <span className="text-[var(--accent-finn)] glow-finn">
-          {content.lang === 'de' ? 'Dringlichkeit' : 'urgency'}
-        </span>
+        {content.lang === 'de' ? (
+          <span className="text-[var(--text-primary)]">
+            {content.hero.title}
+          </span>
+        ) : (
+          <>
+            <span className="text-[var(--text-primary)]">AI with </span>
+            <span className="text-[var(--accent-glow)] glow-cyan">
+              agency
+            </span>
+            <br />
+            <span className="text-[var(--text-primary)]">& </span>
+            <span className="text-[var(--accent-finn)] glow-finn">
+              urgency
+            </span>
+          </>
+        )}
       </motion.h1>
 
       <motion.p

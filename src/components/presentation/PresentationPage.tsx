@@ -61,7 +61,10 @@ export function PresentationPage({ content }: PresentationPageProps) {
   // Global keyboard listener for snap navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.closest('input, textarea, button, a, select, [role="dialog"]')
+      ) {
         return;
       }
 

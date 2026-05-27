@@ -23,7 +23,7 @@ export function MultiSelect({ onSubmit, disabled, section }: MultiSelectProps) {
     );
   };
 
-  const fetchAcknowledgment = async (toolNames: string[]) => {
+  const fetchAcknowledgment = useCallback(async (toolNames: string[]) => {
     try {
       const input = toolNames.length === 0 ? 'none' : toolNames.join(', ');
       const res = await fetch('/api/acknowledge', {
@@ -36,7 +36,7 @@ export function MultiSelect({ onSubmit, disabled, section }: MultiSelectProps) {
     } catch {
       return 'Noted.';
     }
-  };
+  }, [section]);
 
   const handleSubmit = useCallback(async () => {
     if (disabled || submitted) return;
@@ -48,7 +48,7 @@ export function MultiSelect({ onSubmit, disabled, section }: MultiSelectProps) {
     const ack = await fetchAcknowledgment(toolNames);
     setAcknowledgment(ack);
     setIsLoadingAck(false);
-  }, [disabled, submitted, selected, onSubmit, section]);
+  }, [disabled, submitted, selected, onSubmit, fetchAcknowledgment]);
 
   // Global Enter key listener for this component
   useEffect(() => {

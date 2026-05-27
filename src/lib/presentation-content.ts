@@ -15,12 +15,17 @@ export interface SpeakerBackgroundContent {
   eyebrow: string;
   title: string;
   intro: string;
+  image?: {
+    src: string;
+    alt: string;
+    caption: string;
+  };
   proofPoints: {
-    label: string;
+    label?: string;
     title: string;
     text: string;
   }[];
-  takeaway: string;
+  takeaway?: string;
 }
 
 export interface ExecSummaryContent {
@@ -118,7 +123,7 @@ export interface SessionInsightContent {
     title: string;
     text: string;
   }[];
-  takeaway: string;
+  takeaway?: string;
   accent: string;
 }
 
@@ -562,53 +567,54 @@ export const EN_CONTENT: PresentationContent = {
 export const DE_CONTENT: PresentationContent = {
   lang: 'de',
   hero: {
-    title: 'KI mit Selbstbestimmtheit & Dringlichkeit',
-    subtitle: 'Ein praktischer Leitfaden für Führungskräfte — Januar 2026',
+    title: 'KI',
+    subtitle: 'Mit Selbstbestimmtheit und Dringlichkeit',
   },
   speakerBackground: {
     eyebrow: 'Warum ich?',
-    title: 'Praktiker, nicht KI-Kommentator',
-    intro: 'Ich bin Maximilian Wühr, CEO von FINN. FINN ist eine Car-Subscription-Plattform in Deutschland und den USA: digitale Nachfrage, Finanzierung, Flotte, Logistik und Kundenservice in einem operativen System.',
+    title: 'Aus der Praxis.',
+    intro: 'Ich bin Maximilian Wühr, CEO von FINN. Ich nutze KI täglich im operativen Geschäft.',
+    image: {
+      src: '/maximilian-wuehr.jpg',
+      alt: 'Maximilian Wühr',
+      caption: 'Maximilian Wühr · CEO, FINN',
+    },
     proofPoints: [
       {
-        label: 'Kontext',
-        title: 'KMU-Realität, nur größer',
-        text: 'Auch bei FINN sind Geschwindigkeit, Marge, Qualität und Kundenvertrauen gleichzeitig relevant. KI ist kein Laborthema, sondern ein Führungs- und Umsetzungsthema.',
+        title: 'Echte Tradeoffs',
+        text: 'Tempo, Marge, Qualität und Vertrauen gleichzeitig.',
       },
       {
-        label: 'Fläche',
-        title: 'Breite operative Praxis',
-        text: 'Wir sehen KI in Recruiting, Customer Service, Engineering, Data, Marketing und internen Workflows, also dort, wo Arbeit tatsächlich passiert.',
+        title: 'Breite Anwendungsmöglichkeiten',
+        text: 'Recruiting, Service, Engineering, Data, Marketing, interne Workflows.',
       },
       {
-        label: 'Praxis',
-        title: 'Eigene Nutzung jeden Tag',
-        text: 'Ich nutze diese Tools selbst, um Produkte zu bauen, Workflows zu automatisieren und Entscheidungen besser vorzubereiten.',
+        title: 'Eigene Nutzung',
+        text: 'Produkte bauen, Workflows automatisieren, Entscheidungen vorbereiten.',
       },
     ],
-    takeaway: 'FINN ist nicht der Punkt. Der Punkt ist: Die Muster übertragen sich auf jede Organisation mit zu viel Arbeit, zu wenig Zeit und hohen Qualitätsansprüchen.',
   },
   whyIBuiltThis: {
-    title: 'Warum ich das gemacht habe',
-    subtitle: 'Eine persönliche Anmerkung',
+    title: 'Warum diese Präsentation?',
+    subtitle: 'Der Ausgangspunkt',
     reasons: [
       {
-        title: 'Um zum Handeln zu inspirieren',
-        description: 'Ich habe dies ursprünglich als internes Memo bei FINN erstellt, um unsere Teams zu ermutigen, KI-Tools zu nutzen. Die Resonanz war überwältigend — viele wollten es extern teilen.',
+        title: 'Zuerst intern',
+        description: 'Ich habe diese Präsentation in abgewandelter Form intern bei FINN gehalten.',
       },
       {
-        title: 'Weil ich an die Wirkung glaube',
-        description: 'Ich habe aus erster Hand erlebt, wie KI die Arbeit transformiert. Analysten fragen Datenbanken ab, ohne SQL zu schreiben. Designer generieren Bilder in Sekunden. PMs liefern Fixes, ohne auf Engineering-Queues zu warten.',
+        title: 'Weil der Moment wichtig ist',
+        description: 'Mir war wichtig, dass alle erkennen, an welchem Punkt wir uns befinden: KI ist kein Zukunftsthema mehr, sondern verändert Arbeit jetzt.',
       },
       {
-        title: 'Weil ich es jeden Tag nutze',
-        description: 'Ich habe ein Slack CLI in 10 Stunden gebaut. Ein Obsidian-Plugin in 3 Stunden. Das sind keine Hypothesen — das ist mein tatsächlicher Workflow. Die Produktivitätsgewinne sind real.',
+        title: 'Nicht nur verstehen, sondern handeln',
+        description: 'Der Anspruch ist nicht, jedes Tool perfekt zu kennen. Der Anspruch ist, konkrete Anwendungsmöglichkeiten zu sehen und diese Woche etwas auszuprobieren.',
       },
     ],
     closingLine: '',
   },
   execSummary: {
-    title: 'Zusammenfassung',
+    title: 'Jetzt ins Handeln kommen.',
     points: [
       {
         highlight: 'Der Wandel ist da.',
@@ -652,7 +658,7 @@ export const DE_CONTENT: PresentationContent = {
   },
   successFactors: {
     title: 'Was den Unterschied macht',
-    subtitle: 'Die Eigenschaften, die erfolgreiche von struggelnden unterscheiden.',
+    subtitle: '',
     factors: [
       {
         title: 'Neugier',
@@ -681,9 +687,9 @@ export const DE_CONTENT: PresentationContent = {
     ],
   },
   toolsPrimer: {
-    title: 'Karte für KI-Tools',
-    subtitle: 'Kurzes Vokabular, dann was du ausprobieren solltest.',
-    conceptsTitle: 'Drei Dinge zum Wissen',
+    title: 'Wähle dein nächstes Tool.',
+    subtitle: '',
+    conceptsTitle: 'Drei Dinge zu wissen',
     concepts: [
       {
         concept: 'LLM',
@@ -720,7 +726,7 @@ export const DE_CONTENT: PresentationContent = {
         cantDo: ['Aktionen in deinem Namen ausführen', 'Auf deine lokalen Dateien zugreifen', 'Vergangene Gespräche langfristig merken'],
       },
       {
-        category: 'Apps mit KI im Arbeitsfluss',
+        category: 'KI-gestützte Workflow-Tools',
         icon: '[▶]',
         description: 'KI im Workflow: kann Aktionen über mehrere Tools und Apps ausführen.',
         tools: [
@@ -758,28 +764,28 @@ export const DE_CONTENT: PresentationContent = {
     ],
     recommendation: {
       title: 'Wo anfangen?',
-      text: 'Du nutzt wahrscheinlich schon ChatGPT oder Claude. Gut. Nächster Schritt: Probier einen Coding-Agenten wie Cursor — auch wenn du nicht programmierst. Sie sind mächtig für jede komplexe Aufgabe.',
+      text: 'Du nutzt wahrscheinlich schon ChatGPT oder Claude. Gut. Nächster Schritt: Probier einen Coding-Agenten wie Codex — auch wenn du nicht programmierst. Sie sind mächtig für jede komplexe Aufgabe.',
     },
   },
   examples: {
     title: 'Echte Beispiele',
-    subtitle: 'Was Leute tatsächlich mit KI-Tools bauen.',
+    subtitle: '',
     externalTitle: 'Extern',
     external: [
       {
         name: 'Peter Steinberger',
         stat: '2 Nachmittage',
-        description: 'Hat eine Fitness-Tracking-App neu gebaut (ursprünglich von 100 Ingenieuren gewartet)',
+        description: 'Hat eine Fitness-Tracking-App neu gebaut',
         source: 'steipete.me',
       },
       {
-        name: 'Claude Code',
+        name: 'Claude Code entwickelt sich selbst',
         stat: '99%',
         description: 'Zu 99% mit Claude Code selbst gebaut — rekursive KI-Entwicklung',
         source: 'Anthropic',
       },
       {
-        name: 'Duolingo',
+        name: 'Duolingo verbessert das Geschäft',
         stat: '25% + 70%',
         description: '25% schnelleres Onboarding, 70% mehr PRs gemerged',
         source: 'faros.ai',
@@ -799,13 +805,8 @@ export const DE_CONTENT: PresentationContent = {
         description: 'KI übernimmt das Vorscreening und erstellt Recruiter-Zusammenfassungen',
       },
       {
-        name: 'CV-Screening Agents',
-        by: 'FINN HR',
-        description: 'KI-Agents screenen Bewerbungen vor, 60% weniger Aufwand für Recruiter',
-      },
-      {
         name: 'Kundenservice-KI',
-        by: 'FINN CX',
+        by: 'Fabian',
         description: 'Agents bearbeiten 40% der Kundenanfragen vollständig',
       },
     ],
@@ -820,12 +821,12 @@ export const DE_CONTENT: PresentationContent = {
       },
       {
         title: 'Du kannst Bereiche außerhalb deiner Kompetenz betreten.',
-        description: 'Ein PM kann prototypen. Ein Designer kann Daten analysieren. Ein Ops-Manager kann Workflows automatisieren. Die Barrieren sind gefallen.',
+        description: 'Ein Designer kann Daten analysieren. Ein Ops-Manager kann Workflows automatisieren. Die Barrieren sind gefallen.',
         accent: 'var(--accent-success)',
       },
       {
-        title: 'Du kannst schneller liefern.',
-        description: 'KI lässt dich in Stunden erledigen, was früher Wochen gedauert hat. Jede schneller gelieferte Verbesserung ist früher gelieferter Wert.',
+        title: 'Du kannst schneller arbeiten.',
+        description: 'KI lässt dich in Stunden erledigen, was früher Wochen gedauert hat.',
         accent: 'var(--text-primary)',
       },
     ],
@@ -835,7 +836,7 @@ export const DE_CONTENT: PresentationContent = {
       id: 'quality-governance',
       label: 'Aus der letzten Session',
       title: 'Qualität entsteht durch Judgement, nicht durch Tool-Verbot',
-      subtitle: 'Gute KI-Nutzung braucht Regeln, aber das Operating Model bleibt menschliche Verantwortung.',
+      subtitle: 'Gute KI-Nutzung braucht nicht unbedingt Regeln, sondern menschliche Verantwortung.',
       points: [
         {
           title: 'KI bleibt ein Tool',
@@ -850,13 +851,12 @@ export const DE_CONTENT: PresentationContent = {
           text: 'Nutze sie als Review-Layer für Texte, Analysen und Entscheidungen, bevor ein Mensch final freigibt.',
         },
       ],
-      takeaway: 'Der Standard ist nicht: “KI hat es erstellt.” Der Standard ist: “Ein verantwortlicher Mensch hat es geprüft und steht dahinter.”',
       accent: 'var(--accent-finn)',
     },
     careers: {
       id: 'career-shift',
       label: 'Aus der letzten Session',
-      title: 'Karrieren verändern sich, aber Expertise skaliert',
+      title: 'Karrieren verändern sich, aber Expertise bleibt wichtig',
       subtitle: 'KI macht Expertise leichter zugänglich, aber gutes Experten-Judgement wird dadurch wertvoller.',
       points: [
         {
@@ -864,11 +864,11 @@ export const DE_CONTENT: PresentationContent = {
           text: 'Experten werden nicht weniger wichtig, weil KI die Reichweite von gutem Urteil erhöht.',
         },
         {
-          title: 'Juniorrollen bekommen mehr Hebel',
-          text: 'Junioren können schneller onboarden, früher Impact erzeugen und oft furchtloser experimentieren.',
+          title: 'Juniore Rollen bekommen mehr Hebel',
+          text: 'Juniore Rollen können schneller onboarden, früher Impact erzeugen und oft furchtloser experimentieren.',
         },
         {
-          title: 'Die Form verändert sich',
+          title: 'Das Schwierige bleibt schwer',
           text: 'Manche Aufgaben verschwinden. Lernen, Taste, Urteilskraft und Ownership bleiben zentral.',
         },
       ],
@@ -907,48 +907,48 @@ export const DE_CONTENT: PresentationContent = {
         title: 'Erst denken',
         description: 'Nimm dir 2 Minuten, um zu klären, was du willst. Je klarer deine Anfrage, desto besser das Ergebnis.',
         bad: '"Fass das Meeting zusammen"',
-        good: '"Mach aus einem chaotischen Meeting + Slack-Thread eine klare Zusammenfassung und einen Aktionsplan, dann entwirf die Follow-up-E-Mail und Tasks."',
+        good: '"Ziel: Stakeholder sollen nach 2 Minuten wissen, was entschieden wurde und was offen ist. Nutze Meeting-Notizen + Slack-Thread. Output: 5 Kernpunkte, Entscheidungen, offene Fragen, nächste Schritte."',
       },
       {
         number: 2,
         title: 'Sei spezifisch',
         description: 'Vage Anfragen produzieren vage Ergebnisse.',
         bad: '"Mach eine Zusammenfassung aus Meeting und Slack-Thread"',
-        good: '"Aus den Notizen unten: 6 Bullet-Recap fürs Team, dann Action Items mit Verantwortlichen und Fälligkeiten."',
+        good: '"Erstelle aus den Notizen: 1) Executive Summary in 6 Bullets, 2) Action-Item-Tabelle mit Aufgabe, Owner, Fälligkeit, 3) Risiken/Blocker. Maximal 250 Wörter."',
       },
       {
         number: 3,
         title: 'Sag, was es NICHT tun soll',
         description: 'Einschränkungen helfen mehr als du denkst.',
         bad: '"Erstelle Recap und Tasks aus dem Meeting"',
-        good: '"Erstelle Recap und Tasks. Keine Entscheidungen oder Owner erfinden; Unklares als [TBD] markieren."',
+        good: '"Nutze nur Informationen aus dem Input. Erfinde keine Entscheidungen, Owner oder Deadlines. Markiere Lücken als [TBD] und liste Rückfragen separat."',
       },
       {
         number: 4,
         title: 'Erkläre warum',
         description: 'Kontext zählt. "Für Leadership" führt zu anderem Output als "nur fürs Team."',
         bad: '"Schreibe eine Follow-up-Mail"',
-        good: '"Schreibe die Follow-up-Mail, damit Stakeholder, die nicht dabei waren, die nächsten Schritte heute freigeben können."',
+        good: '"Schreibe eine kurze Follow-up-Mail für Stakeholder, die nicht dabei waren. Ziel: Go/No-Go heute. Enthalte Entscheidungsvorschlag, benötigte Freigabe und klare Deadline."',
       },
       {
         number: 5,
         title: 'Neustart wenn blockiert',
         description: 'Wenn KI immer wieder scheitert, fang neu an. Kopiere nur essentiellen Kontext. Performance verbessert sich dramatisch.',
         bad: 'Immer weiter mit derselben kaputten Konversation',
-        good: 'Neuer Chat, nur Meeting-Notizen + Slack-Thread einfügen',
+        good: 'Neuer Chat: "Ignoriere alte Annahmen. Ziel ist ein sauberer Recap. Nutze nur den folgenden Input. Wenn Kontext fehlt, stelle erst maximal 3 Rückfragen."',
       },
       {
         number: 6,
         title: 'Experimentieren',
         description: 'Du brauchst nicht jedes Tool. Aber probier sie. Wenn du nicht experimentierst, verlierst du.',
         bad: 'Immer nur dasselbe Chat-Tool nutzen',
-        good: 'Einmal ein Workflow-Tool testen, das Tasks für dich anlegt',
+        good: 'Teste ein Workflow-Tool: "Erstelle aus diesem Recap drei Tasks mit Titel, Beschreibung, Owner, Fälligkeit und Akzeptanzkriterien. Nichts versenden ohne Review."',
       },
     ],
   },
   closing: {
     title: 'Abschließender Gedanke',
-    message: 'Die Tools werden nur besser werden. Die Frage ist, ob du bereit sein wirst. Fang klein an. Bleib neugierig. Liefere diese Woche etwas.',
+    message: 'Die Tools werden nur besser werden. Die Frage ist, ob du bereit sein wirst. Fang klein an. Bleib neugierig. Probiere diese Woche etwas aus.',
     cta: 'Jetzt starten →',
   },
 };

@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, type KeyboardEvent } from 'react';
 import { motion } from 'framer-motion';
 import { useSession } from '@/context/SessionContext';
 import { useChat } from '@/hooks/useChat';
 import { ThinkingSpinner } from './ThinkingSpinner';
 import { StatusBar } from './StatusBar';
-import { StreamingText } from './StreamingText';
 import { FreeTextInput } from './FreeTextInput';
 import { MultiSelect } from './MultiSelect';
 import { OptionCards, Option } from './OptionCards';
@@ -66,6 +65,8 @@ const sectionConfig: Record<string, SectionConfig> = {
   },
 };
 
+const CLI_SECTION_ORDER = Object.keys(sectionConfig);
+
 // Single section entry in the terminal
 function TerminalSection({
   sectionId,
@@ -90,8 +91,8 @@ function TerminalSection({
 
   // For options section
   const [options, setOptions] = useState<Option[]>([]);
-  const [hasTriggered, setHasTriggered] = useState(false);
-  const { sendMessage, response, isLoading } = useChat({
+  const hasTriggeredRef = useRef(false);
+  const { sendMessage, isLoading } = useChat({
     section: sectionId === 'what-this-means' ? 'practical-guide' : sectionId,
     onComplete: (fullResponse) => {
       if (sectionId === 'examples') {
@@ -121,16 +122,16 @@ function TerminalSection({
 
   // Auto-trigger for options and prompt sections (only once)
   useEffect(() => {
-    if (isNew && !isCompleted && !hasTriggered) {
+    if (isNew && !isCompleted && !hasTriggeredRef.current) {
+      hasTriggeredRef.current = true;
+
       if (sectionId === 'examples') {
-        setHasTriggered(true);
         sendMessage('generate options');
       } else if (sectionId === 'what-this-means') {
-        setHasTriggered(true);
         sendMessage('generate prompt');
       }
     }
-  }, [sectionId, isNew, isCompleted, hasTriggered, sendMessage]);
+  }, [sectionId, isNew, isCompleted, sendMessage]);
 
   const handleFreeTextSubmit = (value: string) => {
     onSubmitFreeText(sectionId, value);
@@ -146,6 +147,7 @@ function TerminalSection({
 
   return (
     <motion.div
+      data-terminal-section={sectionId}
       initial={isNew ? { opacity: 0, y: 20 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -157,8 +159,8 @@ function TerminalSection({
       {/* Welcome */}
       {config.type === 'welcome' && (
         <div className="space-y-2">
-          <div className="text-[var(--text-primary)]">Welcome. I&apos;ll guide you through this memo.</div>
-          <div className="text-[var(--text-muted)]">Scroll down to begin →</div>
+          <div className="text-[var(--text-primary)]">Welcome. I&apos;ll help you turn this session into a concrete next step.</div>
+          <div className="text-[var(--text-muted)]">Press Enter or ↓ to continue →</div>
         </div>
       )}
 
@@ -217,9 +219,15 @@ function TerminalSection({
   );
 }
 
-export function AICli() {
+interface AICliProps {
+  autoFocus?: boolean;
+  enableKeyboardNavigation?: boolean;
+}
+
+export function AICli({ autoFocus = false, enableKeyboardNavigation = false }: AICliProps) {
   const {
     state,
+    addVisitedSection,
     setTaskToAutomate,
     setBlocker,
     setToolsTried,
@@ -227,9 +235,11 @@ export function AICli() {
     setSelectedPath,
     completeSection,
     setGeneratedPrompt,
+    setCurrentSection,
     setSectionResponse,
   } = useSession();
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const prevVisitedCountRef = useRef(state.visitedSections.length);
 
@@ -258,6 +268,12 @@ export function AICli() {
   const handlePromptGenerated = useCallback((prompt: string) => {
     setGeneratedPrompt(prompt);
   }, [setGeneratedPrompt]);
+
+  useEffect(() => {
+    if (autoFocus) {
+      rootRef.current?.focus();
+    }
+  }, [autoFocus]);
 
   // Auto-scroll when new sections are added (not on backward navigation)
   useEffect(() => {
@@ -292,8 +308,60 @@ export function AICli() {
     completeSection(section);
   }, [setSelectedPath, setSectionResponse, completeSection]);
 
+  const scrollToTerminalSection = useCallback((section: string) => {
+    requestAnimationFrame(() => {
+      const target = contentRef.current?.querySelector(`[data-terminal-section="${section}"]`);
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, []);
+
+  const moveTerminal = useCallback((direction: 'next' | 'prev') => {
+    const lastVisited = state.visitedSections[state.visitedSections.length - 1] ?? 'hero';
+    const activeSection = CLI_SECTION_ORDER.includes(state.currentSection)
+      ? state.currentSection
+      : lastVisited;
+    const currentIndex = Math.max(CLI_SECTION_ORDER.indexOf(activeSection), 0);
+    const targetIndex = direction === 'next'
+      ? Math.min(currentIndex + 1, CLI_SECTION_ORDER.length - 1)
+      : Math.max(currentIndex - 1, 0);
+    const targetSection = CLI_SECTION_ORDER[targetIndex];
+
+    setCurrentSection(targetSection);
+    addVisitedSection(targetSection);
+    scrollToTerminalSection(targetSection);
+  }, [
+    addVisitedSection,
+    scrollToTerminalSection,
+    setCurrentSection,
+    state.currentSection,
+    state.visitedSections,
+  ]);
+
+  const handleKeyboardNavigation = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+    if (!enableKeyboardNavigation) return;
+    if (event.target instanceof HTMLElement && event.target.closest('input, textarea, button, select')) {
+      return;
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      event.stopPropagation();
+      moveTerminal('next');
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      event.stopPropagation();
+      moveTerminal('prev');
+    }
+  }, [enableKeyboardNavigation, moveTerminal]);
+
   return (
-    <div className="h-full flex flex-col bg-[#0d0d0d] border-l border-[var(--border)] font-mono text-sm">
+    <div
+      ref={rootRef}
+      data-ai-cli-root="true"
+      tabIndex={enableKeyboardNavigation ? 0 : undefined}
+      onKeyDown={handleKeyboardNavigation}
+      className="h-full flex flex-col bg-[#0d0d0d] border-l border-[var(--border)] font-mono text-sm outline-none"
+    >
       {/* Header */}
       <div className="px-4 py-4 border-b border-[var(--border)] shrink-0">
         <pre className="text-[var(--accent-finn)] text-[10px] leading-tight font-bold">

@@ -23,17 +23,19 @@ export function PresSuccessFactors({ content }: PresSuccessFactorsProps) {
           {successFactors.title}
         </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-[var(--text-muted)] mb-16"
-        >
-          {successFactors.subtitle}
-        </motion.p>
+        {successFactors.subtitle && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-[var(--text-muted)] mb-16"
+          >
+            {successFactors.subtitle}
+          </motion.p>
+        )}
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className={`grid md:grid-cols-2 gap-6 ${successFactors.subtitle ? '' : 'mt-12'}`}>
           {successFactors.factors.map((factor, index) => (
             <motion.div
               key={factor.title}

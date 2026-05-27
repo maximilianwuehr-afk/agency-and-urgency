@@ -32,7 +32,7 @@ export function PresSessionInsight({ insight }: PresSessionInsightProps) {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
+        <div className={`grid md:grid-cols-3 gap-6 ${insight.takeaway ? 'mb-10' : ''}`}>
           {insight.points.map((point, index) => (
             <motion.div
               key={point.title}
@@ -55,18 +55,20 @@ export function PresSessionInsight({ insight }: PresSessionInsightProps) {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.35 }}
-          className="border-l-4 bg-[var(--bg-card)] px-7 py-6 rounded-r-xl"
-          style={{ borderColor: insight.accent }}
-        >
-          <p className="text-xl md:text-2xl text-[var(--text-primary)] leading-relaxed">
-            {insight.takeaway}
-          </p>
-        </motion.div>
+        {insight.takeaway && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.35 }}
+            className="border-l-4 bg-[var(--bg-card)] px-7 py-6 rounded-r-xl"
+            style={{ borderColor: insight.accent }}
+          >
+            <p className="text-xl md:text-2xl text-[var(--text-primary)] leading-relaxed">
+              {insight.takeaway}
+            </p>
+          </motion.div>
+        )}
       </div>
     </PresentationSection>
   );

@@ -25,22 +25,24 @@ export function PresToolsPrimer({ content }: PresToolsPrimerProps) {
           {toolsPrimer.title}
         </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-[var(--text-muted)] mb-16"
-        >
-          {toolsPrimer.subtitle}
-        </motion.p>
+        {toolsPrimer.subtitle && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-xl text-[var(--text-muted)] mb-16"
+          >
+            {toolsPrimer.subtitle}
+          </motion.p>
+        )}
 
         {/* Core Concepts */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className={toolsPrimer.subtitle ? 'mb-16' : 'mb-16 mt-12'}
         >
           <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-8">
             {toolsPrimer.conceptsTitle}
