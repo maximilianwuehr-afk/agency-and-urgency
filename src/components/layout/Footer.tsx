@@ -26,16 +26,6 @@ export function Footer() {
         </motion.div>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-sm text-[var(--text-muted)]">
-          <div>
-            Contact:{' '}
-            <a
-              href="mailto:maximilian.wuehr@finn.com"
-              className="text-[var(--accent-finn)] hover:underline"
-            >
-              Max Wühr
-            </a>
-          </div>
-          <div className="hidden md:block">·</div>
           <div className="font-mono">Last updated: January 2026</div>
           <div className="hidden md:block">·</div>
           <div className="font-mono text-xs">

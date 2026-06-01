@@ -83,9 +83,6 @@ export function PresClosing({ content }: PresClosingProps) {
           <p className="text-sm text-[var(--text-dim)] font-mono">
             Built with AI assistance by Maximilian Wühr
           </p>
-          <p className="text-xs text-[var(--text-dim)] mt-2">
-            Questions? <a href="mailto:maxiwuehr@gmail.com" className="text-[var(--accent-finn)] hover:underline">maxiwuehr@gmail.com</a>
-          </p>
         </motion.div>
       </div>
 
