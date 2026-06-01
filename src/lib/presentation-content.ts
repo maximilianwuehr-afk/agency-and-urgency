@@ -148,7 +148,7 @@ export interface HowToStartContent {
 export interface ClosingContent {
   title: string;
   message: string;
-  cta: string;
+  cta?: string;
 }
 
 export interface PresentationContent {
@@ -949,7 +949,6 @@ export const DE_CONTENT: PresentationContent = {
   closing: {
     title: 'Abschließender Gedanke',
     message: 'Die Tools werden nur besser werden. Die Frage ist, ob du bereit sein wirst. Fang klein an. Bleib neugierig. Probiere diese Woche etwas aus.',
-    cta: 'Jetzt starten →',
   },
 };
 

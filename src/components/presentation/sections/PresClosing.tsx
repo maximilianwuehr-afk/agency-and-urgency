@@ -51,25 +51,27 @@ export function PresClosing({ content }: PresClosingProps) {
           {closing.message}
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-        >
-          <button
-            type="button"
-            onClick={() => {
-              reset();
-              setIsCliOpen(true);
-            }}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--accent-finn)] text-white
-                       font-semibold text-lg rounded-xl hover:brightness-110 transition-all
-                       hover:scale-105 active:scale-100"
+        {closing.cta && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
           >
-            {closing.cta}
-          </button>
-        </motion.div>
+            <button
+              type="button"
+              onClick={() => {
+                reset();
+                setIsCliOpen(true);
+              }}
+              className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--accent-finn)] text-white
+                         font-semibold text-lg rounded-xl hover:brightness-110 transition-all
+                         hover:scale-105 active:scale-100"
+            >
+              {closing.cta}
+            </button>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}
